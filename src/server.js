@@ -1,2 +1,4 @@
-"use strict";
-console.log("welcome this mearn stack page");
+function welcome(name) {
+    console.log("welcome " + name);
+}
+welcome("sagor");
