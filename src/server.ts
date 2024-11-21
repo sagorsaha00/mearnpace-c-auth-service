@@ -1,16 +1,15 @@
-function welcome(name: string) {
-   console.log('welcome ' + name)
+import app from "./app";
+import { Config } from "./config";
 
+const startserver = () =>  {
+    const PORT = Config.PORT;
 
-
-const user1 =  {
-   name:'sagor'
+ try {
+    app.listen(PORT, () => {
+        console.log('server is running on port', PORT);
+    })
+ } catch (error) {
+    console.log(error);
+ }
 }
-
-const fstname = user1["name"]
-
-return fstname
- 
- 
-}
-welcome('sagor')
+startserver()
