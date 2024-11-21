@@ -3,6 +3,14 @@ function welcome(name: string) {
 
 
 
+const user1 =  {
+   name:'sagor'
+}
+
+const fstname = user1["name"]
+
+return fstname
+ 
  
 }
 welcome('sagor')
