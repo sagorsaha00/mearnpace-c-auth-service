@@ -1,24 +1,26 @@
 {
-   "name": "auth-service",
-   "version": "1.0.0",
-   "description": "this is authservice ",
-   "main": "index.js",
-   "scripts": {
-      "dev": "ts-node src/server.ts",
-      "format:fix": "prettier --fix .",
-      "lint:fix": "eslint . --fix",
-      "lint:check": "eslint .",
-      "format.check": "prettier --check .",
-      "test": "echo \"Error: no test specified\" && exit 1"
-   },
-   "author": "sagor (sahasagor650@gmail.com)",
-   "license": "ISC",
-   "devDependencies": {
-      "@eslint/js": "^9.15.0",
-      "@types/node": "^22.9.1",
-      "eslint": "^9.15.0",
-      "prettier": "3.3.3",
-      "typescript": "^5.6.3",
-      "typescript-eslint": "^8.15.0"
-   }
+  "name": "auth-service",
+  "version": "1.0.0",
+  "description": "this is authservice ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/server.ts",
+    "format:fix": "prettier --fix .",
+    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint .",
+    "format.check": "prettier --check .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "author": "sagor (sahasagor650@gmail.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/node": "^22.9.1",
+    "eslint": "^9.15.0",
+    "husky": "^9.1.7",
+    "prettier": "3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0"
+  }
 }
