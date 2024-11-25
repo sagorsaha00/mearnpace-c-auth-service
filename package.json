@@ -4,7 +4,11 @@
   "description": "this is authservice ",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "dev": "ts-node src/server.ts",
+=======
+    "dev": "nodemon src/server.ts",
+>>>>>>> 5042ebdf5e7785751aeb2a51f1d319651f969ba7
     "format:fix": "prettier --fix .",
     "lint:fix": "eslint . --fix",
     "lint:check": "eslint .",
@@ -16,10 +20,15 @@
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.15.0",
+<<<<<<< HEAD
+=======
+    "@types/express": "^5.0.0",
+>>>>>>> 5042ebdf5e7785751aeb2a51f1d319651f969ba7
     "@types/node": "^22.9.1",
     "eslint": "^9.15.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.10",
+<<<<<<< HEAD
     "prettier": "3.3.3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.15.0"
@@ -28,4 +37,22 @@
       "*.ts": ["npm run format:fix", "npm run lint:fix"]
     }
   
+=======
+    "nodemon": "^3.1.7",
+    "prettier": "3.3.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.15.0"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run format:fix",
+      "npm run lint:fix"
+    ]
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1"
+  }
+>>>>>>> 5042ebdf5e7785751aeb2a51f1d319651f969ba7
 }
