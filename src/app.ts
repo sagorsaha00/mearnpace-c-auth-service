@@ -1,5 +1,5 @@
 import { HttpError } from 'http-errors'
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+ 
 import express, { NextFunction, Request, Response } from 'express'
 import logger from './config/logger'
 
