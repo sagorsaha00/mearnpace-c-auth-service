@@ -7,7 +7,7 @@ const app = express()
 app.get('/', (req, res) => {
    res.send('Hello World!')
 })
-app.post('/auth',authRouter)
+app.use('/auth',authRouter);
 
 //global error-handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

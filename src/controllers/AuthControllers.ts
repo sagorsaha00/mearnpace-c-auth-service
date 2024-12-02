@@ -1,8 +1,11 @@
+ 
 import { Response,Request } from "express";
 
 export class AuthControllers {
-    register(res:Response,req:Request) {
-        res.status(201);
-        res.send();
+    register(req:Request,res:Response,) {
+        res.status(201).json();
+       
+        
+        
     }
 }

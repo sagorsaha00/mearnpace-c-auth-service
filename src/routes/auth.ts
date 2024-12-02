@@ -5,6 +5,6 @@ import  express from "express";
 const router = express.Router();
 const authControllers = new AuthControllers();
 
-router.post('/register', (res,req) =>  authControllers.register(req,res))
+router.post('/register', (res,req) =>  authControllers.register(res,req))
 
  export default router;
