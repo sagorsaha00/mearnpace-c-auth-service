@@ -1,5 +1,5 @@
 import { HttpError } from 'http-errors'
- 
+import authRouter from './routes/auth'
 import express, { NextFunction, Request, Response } from 'express'
 import logger from './config/logger'
 
@@ -7,6 +7,7 @@ const app = express()
 app.get('/', (req, res) => {
    res.send('Hello World!')
 })
+app.post('/auth',authRouter)
 
 //global error-handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
