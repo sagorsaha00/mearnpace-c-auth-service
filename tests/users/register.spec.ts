@@ -31,6 +31,20 @@ describe("POST / auth/register" , () => {
             expect((responce.headers as Record<string, string>)["content-type"]).toEqual(expect.stringContaining("json"));
 
         })
+        it("its for postgres data test" , async () => {
+            const userdata = {
+                firstname:'Sagor',
+                lastname:'saha',
+                email:'sahasagor650@gmail.com',
+                password:'secret'
+            }
+            //act
+           await request(app).post('/auth/register').send(userdata)
+    
+    
+            //assent  
+            
+        })
     }) 
 describe("given invalid email" , () => {})
 })

@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { HttpError } from 'http-errors'
 import authRouter from './routes/auth'
 import express, { NextFunction, Request, Response } from 'express'
