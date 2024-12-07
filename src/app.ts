@@ -1,10 +1,11 @@
 import "reflect-metadata"
+import express,{ NextFunction, Request, Response,Express } from 'express'
 import { HttpError } from 'http-errors'
 import authRouter from './routes/auth'
-import express, { NextFunction, Request, Response } from 'express'
 import logger from './config/logger'
 
-const app = express()
+const app: Express = express()
+
 app.get('/', (req, res) => {
    res.send('Hello World!')
 })
@@ -26,4 +27,5 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
       ],
    })
 })
-export default app
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+export default app as Express
