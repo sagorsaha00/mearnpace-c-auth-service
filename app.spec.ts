@@ -14,5 +14,3 @@ it('should be true with status 200', async () => {
     expect(responce.statusCode).toBe(200)
  })
 });
-
-
