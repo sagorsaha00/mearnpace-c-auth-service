@@ -4,6 +4,7 @@ import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 import { truncateTabels } from '../utils'
+import { ROLE } from '../../constants'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -13,7 +14,8 @@ describe('POST / auth/register', () => {
    })
 
    beforeEach(async () => {
-      await truncateTabels(connection)
+      await connection.dropDatabase()
+      await connection.synchronize()
    })
 
    afterAll(async () => {
@@ -75,6 +77,24 @@ describe('POST / auth/register', () => {
          const userRepository = connection.getRepository(User)
          const users = await userRepository.find()
          expect(users).toHaveLength(1)
+      })
+      it('its shoud assign a customer a role ', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor650@gmail.com',
+            password: 'secret',
+         }
+         //act
+         await request(app).post('/auth/register').send(userdata)
+
+         //assent application/jsonutf-8
+         const userRepository = connection.getRepository(User)
+         const users = await userRepository.find()
+         console.log('users', users)
+
+         expect(users[0]).toHaveProperty('role')
+         expect(users[0].role).toBe(ROLES.CUSTOMER)
       })
    })
 })

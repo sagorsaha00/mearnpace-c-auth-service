@@ -2,6 +2,7 @@ import { userdata } from './../types/index'
 import { Repository } from 'typeorm'
 import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
+import { ROLES } from '../../constants'
 
 export class UserService {
    // userRepository: any
@@ -17,6 +18,7 @@ export class UserService {
                lastname,
                email,
                password,
+               role: ROLES.CUSTOMER,
             })
          } catch (error) {
             throw error
