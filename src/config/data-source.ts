@@ -1,19 +1,20 @@
-import "reflect-metadata"
-import { DataSource } from "typeorm"
-import { User } from "../entity/User"
-import { Config } from "."
+import 'reflect-metadata'
+import { Config } from '.'
+import { DataSource } from 'typeorm'
+import { User } from '../entity/User'
+import { config } from 'dotenv'
 
 export const AppDataSource = new DataSource({
-    type: "postgres",
-    host: Config.DB_HOST,
-    port: Number(Config.DB_PORT),
-    username: Config.DB_USERNAME,
-    password: Config.DB_PASSWORD,
-    database: Config.DB_NAME,
-    //dont-touch in production
-    synchronize: Config.NODE_ENV === "dev" || Config.NODE_ENV === "test",
-    logging: false,
-    entities: [User],
-    migrations: [],
-    subscribers: [],
+   type: 'postgres',
+   host: 'localhost',
+   port: Number(Config.DB_PORT),
+   username: 'root',
+   password: 'root', // Explicit string conversion
+   database: 'mearstack_auth-service',
+   //dont-touch in production
+   synchronize: Config.NODE_ENV === 'dev' || Config.NODE_ENV === 'test',
+   logging: false,
+   entities: [User],
+   migrations: [],
+   subscribers: [],
 })
