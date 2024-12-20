@@ -4,7 +4,7 @@ import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 import { truncateTabels } from '../utils'
-import { ROLE } from '../../constants'
+import { ROLES } from '../../constants'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -91,10 +91,30 @@ describe('POST / auth/register', () => {
          //assent application/jsonutf-8
          const userRepository = connection.getRepository(User)
          const users = await userRepository.find()
-         console.log('users', users)
+         // console.log('users', users)
 
          expect(users[0]).toHaveProperty('role')
          expect(users[0].role).toBe(ROLES.CUSTOMER)
+      })
+      it('its shoud be hash password ', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor650@gmail.com',
+            password: 'secret',
+         }
+         //act
+         await request(app).post('/auth/register').send(userdata)
+         //act
+         await request(app).post('/auth/register').send(userdata)
+
+         //assent application/jsonutf-8
+         const userRepository = connection.getRepository(User)
+
+         const users = await userRepository.find()
+         expect(users[0].password).not.toBe(userdata.password)
+         expect(users[0].password).toHaveLength(60)
+         expect(users[0].password).toMatch(/^\$2b\$\d+\$/)
       })
    })
 })

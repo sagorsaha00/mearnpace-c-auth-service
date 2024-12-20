@@ -1,3 +1,4 @@
+import bcript from 'bcrypt'
 import { userdata } from './../types/index'
 import { Repository } from 'typeorm'
 import { AppDataSource } from '../config/data-source'
@@ -9,26 +10,26 @@ export class UserService {
    constructor(private userRepository: Repository<User>) {}
 
    async create({ firstname, lastname, email, password }: userdata) {
-      {
-         //  const userRepository = AppDataSource.getRepository(User)
+      //hash password create
+      const saltOrRound = 10
+      const HasPassword = await bcript.hash(password, saltOrRound)
 
-         try {
-            return await this.userRepository.save({
-               firstname,
-               lastname,
-               email,
-               password,
-               role: ROLES.CUSTOMER,
-            })
-         } catch (error) {
-            throw error
-         }
+      try {
+         return await this.userRepository.save({
+            firstname,
+            lastname,
+            email,
+            password: HasPassword,
+            role: ROLES.CUSTOMER,
+         })
+      } catch (error) {
+         throw error
       }
-
-      // const newUser = {
-      //     id: 'generated-id', // Replace with logic to create or retrieve ID
-
-      //   };
-      //   return newUser
    }
+
+   // const newUser = {
+   //     id: 'generated-id', // Replace with logic to create or retrieve ID
+
+   //   };
+   //   return newUser
 }
