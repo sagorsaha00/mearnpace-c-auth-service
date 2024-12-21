@@ -1,10 +1,10 @@
+import { ROLES } from './../../constants/index'
 import { DataSource } from 'typeorm'
 import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 import { truncateTabels } from '../utils'
-import { ROLES } from '../../constants'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -105,8 +105,6 @@ describe('POST / auth/register', () => {
          }
          //act
          await request(app).post('/auth/register').send(userdata)
-         //act
-         await request(app).post('/auth/register').send(userdata)
 
          //assent application/jsonutf-8
          const userRepository = connection.getRepository(User)
@@ -115,6 +113,42 @@ describe('POST / auth/register', () => {
          expect(users[0].password).not.toBe(userdata.password)
          expect(users[0].password).toHaveLength(60)
          expect(users[0].password).toMatch(/^\$2b\$\d+\$/)
+      })
+
+      it('its shoud return 404 if email already have axists', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor650@gmail.com',
+            password: 'secret',
+         }
+
+         const userRepository = connection.getRepository(User)
+         await userRepository.save({ ...userdata, role: ROLES.CUSTOMER })
+
+         const users = await userRepository.find()
+         //act
+         const responce = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+         expect(responce.statusCode).toBe(400)
+         expect(users).toHaveLength(1)
+      })
+   })
+   describe('given all field', () => {
+      it('should return the 400 status code if fields are required', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: '',
+            password: 'secret',
+         }
+
+         //act
+         const responce = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+         expect(responce.statusCode).toBe(400)
       })
    })
 })
