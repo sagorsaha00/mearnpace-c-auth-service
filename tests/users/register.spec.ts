@@ -150,5 +150,53 @@ describe('POST / auth/register', () => {
             .send(userdata)
          expect(responce.statusCode).toBe(400)
       })
+      it('should return the 400 status code if firstname field is empty', async () => {
+         const userdata = {
+            firstname: '', // Empty firstname
+            lastname: 'saha',
+            email: 'sahasagor650@gmai.com',
+            password: 'secret',
+         }
+
+         const response = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+
+         expect(response.statusCode).toBe(400)
+         expect(response.body.errors).toEqual(
+            expect.arrayContaining([
+               expect.objectContaining({ msg: 'Firstname is required' }),
+            ]),
+         )
+      })
+   })
+   describe('given all field format properly', () => {
+      it('should save the user if email is valid', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor659@gmail.com', // Valid email
+            password: 'secret',
+         }
+
+         // Act: Send the request
+         const response = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+
+         // Assert: Ensure the response status is 201 (user created)
+         expect(response.statusCode).toBe(201)
+
+         // Verify user was saved to the database
+         const userRepository = connection.getRepository(User)
+         const users = await userRepository.find()
+
+         // Assert: There should be one user
+         expect(users.length).toBe(1)
+
+         // Assert: User's email matches the input
+         const user = users[0]
+         expect(user.email).toBe('sahasagor659@gmail.com')
+      })
    })
 })
