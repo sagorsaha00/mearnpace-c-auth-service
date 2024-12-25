@@ -3,6 +3,7 @@ import { Config } from '.'
 import { DataSource } from 'typeorm'
 import { User } from '../entity/User'
 import { config } from 'dotenv'
+import { RefreshToken } from '../entity/RefreshToken'
 
 export const AppDataSource = new DataSource({
    type: 'postgres',
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
    //dont-touch in production alawaya keep false
    synchronize: false,
    logging: false,
-   entities: [User],
+   entities: [User, RefreshToken],
    migrations: [],
    subscribers: [],
 })

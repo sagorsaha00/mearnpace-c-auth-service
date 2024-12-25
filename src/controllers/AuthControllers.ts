@@ -1,3 +1,4 @@
+import { RefreshToken } from '../entity/RefreshToken'
 import { sign } from 'crypto'
 import fs from 'fs'
 import * as jwt from 'jsonwebtoken'
@@ -9,6 +10,8 @@ import { cookie, validationResult } from 'express-validator'
 import { strict } from 'assert'
 import path from 'path'
 import createHttpError from 'http-errors'
+import { Config } from '../config'
+import { AppDataSource } from '../config/data-source'
 
 export class AuthControllers {
    constructor(
@@ -72,7 +75,20 @@ export class AuthControllers {
             issuer: 'Auth-Service',
          })
 
-         const refreshToken = 'fhfghgffddf'
+         const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365 // 1 year
+
+         const refreshtokenrepo = AppDataSource.getRepository(RefreshToken)
+         const newrefreshtoken = await refreshtokenrepo.save({
+            user: user,
+            expriseAt: new Date(Date.now() + MS_IN_YEAR),
+         })
+
+         const refreshToken = jwt.sign(payload, Config.REFRESH_TOKEN_SECRET!, {
+            algorithm: 'HS256',
+            expiresIn: '1y',
+            issuer: 'Auth-Service',
+            jwtid: String(newrefreshtoken.id),
+         })
 
          res.cookie('accessToken', accessToken, {
             domain: 'localhost',
@@ -84,7 +100,7 @@ export class AuthControllers {
          res.cookie('refreshToken', refreshToken, {
             domain: 'localhost',
             sameSite: 'strict',
-            maxAge: 1000 * 60 * 60,
+            maxAge: 1000 * 60 * 60 * 24 * 365, //1y
             httpOnly: true,
          })
 

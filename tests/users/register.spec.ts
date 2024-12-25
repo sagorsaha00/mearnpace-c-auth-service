@@ -1,3 +1,4 @@
+import { body } from 'express-validator'
 import { ROLES } from './../../constants/index'
 import { DataSource } from 'typeorm'
 import app from '../../src/app'
@@ -6,6 +7,7 @@ import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 import { jtwt, truncateTabels } from '../utils'
 import { Headers } from 'jwks-rsa'
+import { RefreshToken } from '../../src/entity/RefreshToken'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -117,6 +119,7 @@ describe('POST / auth/register', () => {
       })
 
       it('its shoud return 404 if email already have axists', async () => {
+         //arange
          const userdata = {
             firstname: 'Sagor',
             lastname: 'saha',
@@ -174,7 +177,33 @@ describe('POST / auth/register', () => {
          expect(refreshToken).not.toBeNull()
 
          expect(jtwt(accessToken)).toBeTruthy()
-         // expect(jtwt(refreshToken)).toBeTruthy()
+         expect(jtwt(refreshToken)).toBeTruthy()
+      })
+      it('should return refreshtoken in database', async () => {
+         //arange
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor650@gmail.com',
+            password: 'secret',
+         }
+
+         //act
+         const responce = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+
+         const refreshTokenrepo = connection.getRepository(RefreshToken)
+         // const refreshtoken = await refreshTokenrepo.find()
+
+         const tokens = await refreshTokenrepo
+            .createQueryBuilder('refreshToken')
+            .where('refreshToken.userId = :userId', {
+               userId: (responce.body as Record<string, string>).id,
+            })
+            .getMany()
+
+         expect(tokens).toHaveLength(1)
       })
    })
    describe('given all field', () => {
