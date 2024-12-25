@@ -1,29 +1,29 @@
 // @ts-check
-import eslint from '@eslint/js';
+import eslint from '@eslint/js'
 // @ts-ignore
-import tseslint from 'typescript-eslint';
+import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  
-    {
-        ignores:["dist","node-modules",'eslint.config.mjs','jest.config.js'],
-    },
-  {
-    languageOptions: {
-        parserOptions: {
-          projectService: true,
-          tsconfigRootDir: import.meta.dirname,
-        },
+   eslint.configs.recommended,
+   ...tseslint.configs.recommendedTypeChecked,
+
+   {
+      ignores: ['dist', 'node-modules', 'eslint.config.mjs', 'jest.config.js'],
+   },
+   {
+      languageOptions: {
+         parserOptions: {
+            projectService: true,
+            tsconfigRootDir: import.meta.dirname,
+         },
       },
-      rules:{
-        // "no-console": "error",
-        // "dot-notation": "error",
-        '@typescript-eslint/no-misused-promises':'off'
-    }
-  },
-);
+      rules: {
+         // "no-console": "error",
+         // "dot-notation": "error",
+         '@typescript-eslint/no-misused-promises': 'off',
+      },
+   },
+)
 
 // @ts-nocheck
 // import eslint from '@eslint/js';

@@ -4,7 +4,8 @@ import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
-import { truncateTabels } from '../utils'
+import { jtwt, truncateTabels } from '../utils'
+import { Headers } from 'jwks-rsa'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -133,6 +134,47 @@ describe('POST / auth/register', () => {
             .send(userdata)
          expect(responce.statusCode).toBe(400)
          expect(users).toHaveLength(1)
+      })
+      it('should return accessToken and refreshToken in cookies', async () => {
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'Saha',
+            email: 'sahasagor650@gmail.com',
+            password: 'secret',
+         }
+
+         // Act: Send a POST request
+         const response = await request(app)
+            .post('/auth/register')
+            .send(userdata)
+
+         // Ensure cookies are treated as an array
+
+         // Initialize token variables
+         let accessToken: string | null = null
+         let refreshToken: string | null = null
+         interface Headers {
+            ['set-cookie']: string[]
+         }
+
+         const cookies =
+            (response.headers as unknown as Headers)['set-cookie'] || []
+         // Extract tokens from cookies
+         cookies.forEach((cookie) => {
+            if (cookie.startsWith('accessToken=')) {
+               accessToken = cookie.split(';')[0].split('=')[1]
+            }
+            if (cookie.startsWith('refreshToken=')) {
+               refreshToken = cookie.split(';')[0].split('=')[1]
+            }
+         })
+
+         // Assertions
+         expect(accessToken).not.toBeNull()
+         expect(refreshToken).not.toBeNull()
+
+         expect(jtwt(accessToken)).toBeTruthy()
+         // expect(jtwt(refreshToken)).toBeTruthy()
       })
    })
    describe('given all field', () => {
