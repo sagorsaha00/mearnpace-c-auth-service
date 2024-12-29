@@ -1,3 +1,4 @@
+import { TokenService } from './../services/TokenService'
 import { RefreshToken } from '../entity/RefreshToken'
 import { sign } from 'crypto'
 import fs from 'fs'
@@ -17,19 +18,11 @@ export class AuthControllers {
    constructor(
       private userService: UserService,
       private logger: Logger,
+      private tokenservice: TokenService,
    ) {}
 
    async register(request: Request, res: Response, next: NextFunction) {
-      // Correctly typed request and res
-      // if (
-      //    !request.body.firstname ||
-      //    !request.body.lastname ||
-      //    !request.body.email ||
-      //    !request.body.password
-      // ) {
-      //    return res.status(400).json({ message: 'All fields are required.' })
-      // }
-
+      //check valdator
       const result = validationResult(request)
       if (!result.isEmpty()) {
          return res.status(400).json({ errors: result.array() })
@@ -43,6 +36,7 @@ export class AuthControllers {
          password: '#****',
       })
 
+      //user create
       try {
          const user = await this.userService.create({
             firstname,
@@ -52,42 +46,20 @@ export class AuthControllers {
          })
          this.logger.info('user has been registerd', { id: user.id })
 
-         let privateKey: Buffer
-         try {
-            privateKey = fs.readFileSync(
-               path.join(__dirname, '../../certs/privateKey.pem'),
-            )
-         } catch (err) {
-            const error = createHttpError(500, 'Internal Server Error')
-            next(error)
-            return
-         }
-
          const payload: JwtPayload = {
             sub: String(user.id), // The 'sub' claim (typically the user ID)
             role: user.role, // Your custom claim (role)
          }
 
-         // Generate the access token
-         const accessToken = jwt.sign(payload, privateKey, {
-            algorithm: 'RS256',
-            expiresIn: '1h',
-            issuer: 'Auth-Service',
-         })
+         //genarate accesstoken
+         const accessToken = this.tokenservice.genarateAccessToken(payload)
 
-         const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365 // 1 year
+         const newrefreshtoken =
+            await this.tokenservice.persistRefreshToken(user)
 
-         const refreshtokenrepo = AppDataSource.getRepository(RefreshToken)
-         const newrefreshtoken = await refreshtokenrepo.save({
-            user: user,
-            expriseAt: new Date(Date.now() + MS_IN_YEAR),
-         })
-
-         const refreshToken = jwt.sign(payload, Config.REFRESH_TOKEN_SECRET!, {
-            algorithm: 'HS256',
-            expiresIn: '1y',
-            issuer: 'Auth-Service',
-            jwtid: String(newrefreshtoken.id),
+         const refreshToken = this.tokenservice.genarateRefreshToken({
+            ...payload,
+            id: String(newrefreshtoken.id),
          })
 
          res.cookie('accessToken', accessToken, {
