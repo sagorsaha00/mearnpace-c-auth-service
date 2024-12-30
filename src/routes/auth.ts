@@ -9,13 +9,20 @@ import { registerValidator } from '../validator/register-validator'
 import { TokenService } from '../services/TokenService'
 import { RefreshToken } from '../entity/RefreshToken'
 import { loginValidator } from '../validator/login-validator'
+import { credentialService } from '../services/credentialService'
 
 const router = express.Router()
 const userRepository = AppDataSource.getRepository(User)
 const refreshtokenrepository = AppDataSource.getRepository(RefreshToken)
 const userService = new UserService(userRepository)
 const tokenservice = new TokenService(refreshtokenrepository)
-const authControllers = new AuthControllers(userService, logger, tokenservice)
+const credentialservice = new credentialService()
+const authControllers = new AuthControllers(
+   userService,
+   logger,
+   tokenservice,
+   credentialservice,
+)
 
 router.post(
    '/register',
@@ -27,7 +34,7 @@ router.post(
    '/login',
    loginValidator, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.register(req, res, next),
+      authControllers.login(req, res, next),
 )
 
 export default router

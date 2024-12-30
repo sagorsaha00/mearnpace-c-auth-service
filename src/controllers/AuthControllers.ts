@@ -1,7 +1,5 @@
 import { error } from 'console'
 import { TokenService } from './../services/TokenService'
-import { RefreshToken } from '../entity/RefreshToken'
-import { sign } from 'crypto'
 import fs from 'fs'
 import * as jwt from 'jsonwebtoken'
 import { JwtPayload } from 'jsonwebtoken'
@@ -9,17 +7,16 @@ import { Logger } from 'winston'
 import { UserService } from '../services/UserService'
 import { Response, Request, NextFunction } from 'express' // Correct import for Response and Request
 import { validationResult } from 'express-validator'
-import { strict } from 'assert'
-import path from 'path'
 import createHttpError from 'http-errors'
-import { Config } from '../config'
-import { AppDataSource } from '../config/data-source'
+
+import { credentialService } from '../services/credentialService'
 
 export class AuthControllers {
    constructor(
       private userService: UserService,
       private logger: Logger,
       private tokenservice: TokenService,
+      private credentialservice: credentialService,
    ) {}
 
    async register(request: Request, res: Response, next: NextFunction) {
@@ -102,6 +99,19 @@ export class AuthControllers {
             return
          }
 
+         //user password check if user passeord and  input passwrod not match throw error function
+
+         const passwrodMatch = await this.credentialservice.comparePassword(
+            password,
+            user.password,
+         )
+
+         if (!passwrodMatch) {
+            const error = createHttpError(404, 'password and email doest match')
+            next(error)
+            return
+         }
+         this.logger.info('user has been login', { id: user.id })
          //this code is ok for login page
          const payload: JwtPayload = {
             sub: String(user.id), // The 'sub' claim (typically the user ID)
