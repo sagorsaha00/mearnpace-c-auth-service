@@ -37,6 +37,13 @@ export class UserService {
       }
    }
 
+   async findoneByemail({ email }: { email: string }) {
+      const user = await this.userRepository.findOne({
+         where: { email: email },
+      })
+      return user
+   }
+
    // const newUser = {
    //     id: 'generated-id', // Replace with logic to create or retrieve ID
 
