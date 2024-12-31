@@ -14,10 +14,10 @@ describe('POST / auth/login', () => {
 
    beforeEach(async () => {
       await connection.dropDatabase()
-      console.log('Database dropped.')
+      // console.log('Database dropped.')
 
       await connection.synchronize()
-      console.log('Database synchronized.')
+      // console.log('Database synchronized.')
 
       const hashedPassword = await bcrypt.hash('password', 10) // Hash the password
 
@@ -28,14 +28,14 @@ describe('POST / auth/login', () => {
          password: hashedPassword, // Save the hashed password
          role: ROLES.CUSTOMER,
       })
-      console.log('Test user added.')
+      // console.log('Test user added.')
    })
 
    afterAll(async () => {
       if (connection && connection.isInitialized) {
          await connection.destroy()
       } else {
-         console.log('Connection was not initialized, skipping cleanup')
+         // console.log('Connection was not initialized, skipping cleanup')
       }
    })
 

@@ -143,7 +143,7 @@ export class AuthControllers {
             httpOnly: true,
          })
 
-         res.status(201).json({ id: user.id })
+         res.json({ id: user.id })
       } catch (err) {
          next(err)
          return
