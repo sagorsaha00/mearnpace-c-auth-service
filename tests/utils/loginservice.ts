@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt'
-
+import createHttpError from 'http-errors'
+function next(error: createHttpError.HttpError<404>) {
+   throw new Error('Function not implemented.')
+}
 export class LoginService {
    private userRepository
 
@@ -11,12 +14,16 @@ export class LoginService {
       const user = await this.userRepository.findOne({ where: { email } })
       console.log('user name ', user)
       if (!user) {
-         throw new Error('Invalid email or password')
+         const error = createHttpError(404, 'user and password are not match')
+         next(error)
+         return 404
       }
 
       const passwordMatch = await bcrypt.compare(password, user.password)
       if (!passwordMatch) {
-         throw new Error('Invalid password')
+         const error = createHttpError(404, 'user and password are not match')
+         next(error)
+         return 404
       }
 
       return 201 // Success

@@ -36,5 +36,10 @@ router.post(
    (req: Request, res: Response, next: NextFunction) =>
       authControllers.login(req, res, next),
 )
+router.get(
+   '/self', // Fixed validation method from isEmpty to notEmpty
+   (req: Request, res: Response, next: NextFunction) =>
+      authControllers.self(req, res),
+)
 
 export default router

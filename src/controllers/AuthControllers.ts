@@ -149,4 +149,7 @@ export class AuthControllers {
          return
       }
    }
+   async self(request: Request, res: Response) {
+      res.json({})
+   }
 }

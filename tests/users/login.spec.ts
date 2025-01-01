@@ -48,4 +48,14 @@ describe('POST / auth/login', () => {
          expect(result).toBe(201)
       })
    })
+
+   // describe('given invalid email', () => {
+   //    it('should return 400 if email is invalid', async () => {
+   //       const result = await new LoginService(
+   //          connection.getRepository(User),
+   //       ).login('invalidemail', 'password')
+
+   //       expect(result).toBe(404)
+   //    })
+   // })
 })
