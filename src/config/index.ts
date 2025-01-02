@@ -56,6 +56,7 @@ export interface config {
    DB_NAME: string
    JWT_SECRET: string
    REFRESH_TOKEN_SECRET: string
+   JWKS_URI: string
 }
 
 export const Config: config = {
@@ -69,6 +70,7 @@ export const Config: config = {
    JWT_SECRET: process.env.JWT_SECRET || 'default_jwt_secret',
    REFRESH_TOKEN_SECRET:
       process.env.REFRESH_TOKEN_SECRET || 'default_refresh_secret',
+   JWKS_URI: process.env.JWKS_URI!,
 }
 
 // Debugging: Log to verify values

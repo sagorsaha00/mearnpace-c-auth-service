@@ -1,3 +1,4 @@
+import { AuthRequest } from './../types/index'
 import { error } from 'console'
 import { TokenService } from './../services/TokenService'
 import fs from 'fs'
@@ -149,7 +150,11 @@ export class AuthControllers {
          return
       }
    }
-   async self(request: Request, res: Response) {
-      res.json({})
+   async self(req: AuthRequest, res: Response) {
+      // console.log('Decoded token:', req.auth) // Assuming the middleware sets req.auth
+      // console.log('Fetching user with ID:', req.auth?.sub)
+
+      const user = await this.userService.findById(Number(req.auth?.sub))
+      res.json(user)
    }
 }

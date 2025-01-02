@@ -10,6 +10,8 @@ import { TokenService } from '../services/TokenService'
 import { RefreshToken } from '../entity/RefreshToken'
 import { loginValidator } from '../validator/login-validator'
 import { credentialService } from '../services/credentialService'
+import authenticate from '../../middleware/authenticate'
+import { AuthRequest } from '../types'
 
 const router = express.Router()
 const userRepository = AppDataSource.getRepository(User)
@@ -37,9 +39,10 @@ router.post(
       authControllers.login(req, res, next),
 )
 router.get(
-   '/self', // Fixed validation method from isEmpty to notEmpty
+   '/self',
+   authenticate, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.self(req, res),
+      authControllers.self(req as AuthRequest, res),
 )
 
 export default router
