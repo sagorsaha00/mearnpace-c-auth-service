@@ -44,5 +44,9 @@ router.get(
    (req: Request, res: Response, next: NextFunction) =>
       authControllers.self(req as AuthRequest, res),
 )
-
+router.get(
+   '/refresh', // Fixed validation method from isEmpty to notEmpty
+   (req: Request, res: Response, next: NextFunction) =>
+      authControllers.refresh(req as AuthRequest, res),
+)
 export default router
