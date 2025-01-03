@@ -61,6 +61,7 @@ export class AuthControllers {
             id: String(newrefreshtoken.id),
          })
 
+         //responce accesstoken
          res.cookie('accessToken', accessToken, {
             domain: 'localhost',
             sameSite: 'strict',
@@ -68,6 +69,7 @@ export class AuthControllers {
             httpOnly: true,
          })
 
+         //responce refreshtoken
          res.cookie('refreshToken', refreshToken, {
             domain: 'localhost',
             sameSite: 'strict',

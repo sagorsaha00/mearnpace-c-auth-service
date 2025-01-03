@@ -7,8 +7,7 @@ const { privateKey, publicKey } = generateKeyPairSync('rsa', {
    privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
 })
 
-console.log('privateKey', privateKey)
-console.log('publicKey', publicKey)
+ 
 
 fs.writeFileSync('certs/privateKey.pem', privateKey)
 fs.writeFileSync('certs/publicKey.pem', publicKey)
