@@ -11,6 +11,7 @@ import { validationResult } from 'express-validator'
 import createHttpError from 'http-errors'
 
 import { credentialService } from '../services/credentialService'
+import { AppDataSource } from '../config/data-source'
 
 export class AuthControllers {
    constructor(
@@ -159,7 +160,59 @@ export class AuthControllers {
       const user = await this.userService.findById(Number(req.auth?.sub))
       res.json(user)
    }
-   async refresh(req: Request, res: Response) {
-      res.json({})
+   async refresh(req: AuthRequest, res: Response, next: NextFunction) {
+      try {
+         const payload: JwtPayload = {
+            sub: String(req.auth.sub), // The 'sub' claim (typically the user ID)
+            role: req.auth.role, // Your custom claim (role)
+         }
+
+         //genarate accesstoken
+         const accessToken = this.tokenservice.genarateAccessToken(payload)
+
+         const user = await this.userService.findById(Number(req.auth.sub))
+
+         if (!user) {
+            const error = createHttpError(
+               400,
+               'user with the token could not be find',
+            )
+            next(error)
+            return
+         }
+
+         //persists the refresh token
+         const newrefreshtoken =
+            await this.tokenservice.persistRefreshToken(user)
+
+         //delete old refresh token
+         await this.tokenservice.deleteRefreshToken(Number(req.auth.id))
+
+         const refreshToken = this.tokenservice.genarateRefreshToken({
+            ...payload,
+            id: String(newrefreshtoken.id),
+         })
+
+         //responce accesstoken
+         res.cookie('accessToken', accessToken, {
+            domain: 'localhost',
+            sameSite: 'strict',
+            maxAge: 1000 * 60 * 60,
+            httpOnly: true,
+         })
+
+         //responce refreshtoken
+         res.cookie('refreshToken', refreshToken, {
+            domain: 'localhost',
+            sameSite: 'strict',
+            maxAge: 1000 * 60 * 60 * 24 * 365, //1y
+            httpOnly: true,
+         })
+
+         res.status(201).json({ id: req.auth.sub })
+      } catch (error) {
+         next(error)
+         return
+      }
    }
 }
