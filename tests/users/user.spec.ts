@@ -40,7 +40,7 @@ describe('POST / auth/register', () => {
          })
          const responce = await request(app)
             .get('/auth/self')
-            .set('Cookie', `accessToken=${accessToken};`)
+            .set('Cookie', `accessToken=${accessToken}`)
             .send()
          expect(responce.statusCode).toBe(200)
       })

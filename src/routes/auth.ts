@@ -13,6 +13,7 @@ import { credentialService } from '../services/credentialService'
 import authenticate from '../../middleware/authenticate'
 import { AuthRequest } from '../types'
 import validateRefreshToken from '../../middleware/validateRefreshToken'
+import perseRefreshToken from '../../middleware/perseRefreshToken'
 
 const router = express.Router()
 const userRepository = AppDataSource.getRepository(User)
@@ -50,5 +51,11 @@ router.post(
    validateRefreshToken, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
       authControllers.refresh(req as AuthRequest, res, next),
+)
+router.post(
+   '/logout',
+   authenticate, // Fixed validation method from isEmpty to notEmpty,
+   (req: Request, res: Response, next: NextFunction) =>
+      authControllers.logout(req as AuthRequest, res, next),
 )
 export default router

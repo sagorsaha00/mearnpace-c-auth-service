@@ -6,7 +6,6 @@ import logger from './config/logger'
 
 const startserver = async () => {
    const PORT = Config.PORT
-   console.log('port name', Config.PORT)
    try {
       await AppDataSource.initialize()
       logger.info('databse connect successfully')
