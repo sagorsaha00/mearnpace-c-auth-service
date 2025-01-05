@@ -54,8 +54,9 @@ router.post(
 )
 router.post(
    '/logout',
-   authenticate, // Fixed validation method from isEmpty to notEmpty,
+   authenticate,
+   perseRefreshToken, // Fixed validation method from isEmpty to notEmpty,
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.logout(req as AuthRequest, res, next),
+      authControllers.logout({ req: req as AuthRequest, res, next }),
 )
 export default router

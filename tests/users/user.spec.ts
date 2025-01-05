@@ -74,14 +74,40 @@ describe('POST / auth/register', () => {
             .set('Cookie', `accessToken=${accessToken};`)
             .send()
 
-         //aserts
-         // console.log('Response status:', responce.statusCode)
-         // console.log('Response body:', responce.body)
-
          // Assert user data
          expect(responce.statusCode).toBe(200)
          //user data check if user data not match throw error
          expect(responce.body.id).toBe(data?.id)
+      })
+      it('it shoud not return user password', async () => {
+         //register user
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor659@gmail.com', // Valid email
+            password: 'secret',
+         }
+
+         const userRepository = connection.getRepository(User)
+         const data = await userRepository.save({
+            ...userdata,
+            role: ROLES.CUSTOMER,
+         })
+         //genarate token
+         const accessToken = jwks.token({
+            sub: data.id.toString(),
+            role: data.role,
+         })
+         //add token in cookie
+         const responce = await request(app)
+            .get('/auth/self')
+            .set('Cookie', `accessToken=${accessToken};`)
+            .send()
+         console.log(responce.body)
+         // Assert user data
+
+         //user data check if user data not match throw error
+         expect(responce.body).not.toHaveProperty('password')
       })
    })
 })

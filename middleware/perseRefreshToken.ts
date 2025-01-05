@@ -1,13 +1,21 @@
-import { authcookie, IrefreeshToken } from './../src/types/index'
 import { expressjwt } from 'express-jwt'
 import { Config } from '../src/config'
 import { Request } from 'express'
-export default expressjwt({
-   secret: Config.REFRESH_TOKEN_SECRET!,
-   algorithms: ['HS256'], // add this line
+import { authcookie } from './../src/types/index'
 
-   getToken(req: Request) {
-      const { refreshToken } = req.cookies as authcookie
-      return refreshToken
+const parseRefreshToken = expressjwt({
+   secret: Config.REFRESH_TOKEN_SECRET,
+   algorithms: ['HS256'],
+   credentialsRequired: true,
+   requestProperty: 'auth',
+   getToken: (req: Request) => {
+      try {
+         const cookies = req.cookies as authcookie
+         return cookies?.refreshToken
+      } catch (error) {
+         return undefined
+      }
    },
 })
+
+export default parseRefreshToken

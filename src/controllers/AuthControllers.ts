@@ -159,7 +159,7 @@ export class AuthControllers {
 
       const user = await this.userService.findById(Number(req?.auth.sub))
 
-      res.json(user)
+      res.json({ ...user, passwrod: undefined })
    }
    // async self(req: AuthRequest, res: Response) {
    //    try {
@@ -256,17 +256,39 @@ export class AuthControllers {
       }
    }
 
-   async logout(req: AuthRequest, res: Response, next: NextFunction) {
-      console.log(req.auth)
+   async logout({
+      req,
+      res,
+      next,
+   }: {
+      req: AuthRequest
+      res: Response
+      next: NextFunction
+   }) {
       try {
+         // Check if auth exists
+         if (!req.auth || !req.auth.id) {
+            return res.status(401).json({
+               error: 'No authentication token found',
+            })
+         }
+
          await this.tokenservice.deleteRefreshToken(Number(req.auth.id))
-         this.logger.info('user refreshtoken has been delete', {
-            id: req.auth.id,
+
+         // Clear cookies with specific options
+         res.clearCookie('accessToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
          })
-         this.logger.info('user id is has been delete', { id: req.auth.sub })
-         res.clearCookie('accessToken')
-         res.clearCookie('refreshToken')
-         res.json({})
+
+         res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+         })
+
+         return res.status(200).json({ message: 'Logged out successfully' })
       } catch (error) {
          next(error)
       }
