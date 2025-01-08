@@ -13,9 +13,9 @@ export const AppDataSource = new DataSource({
    password: 'root', // Explicit string conversion
    database: 'mearstack_auth-service',
    //dont-touch in production alawaya keep false
-   synchronize: true,
+   synchronize: false,
    logging: false,
    entities: [User, RefreshToken],
-   migrations: [],
+   migrations: ['src/migration/*.ts'],
    subscribers: [],
 })

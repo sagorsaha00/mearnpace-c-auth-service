@@ -5,9 +5,7 @@ import { DataSource } from 'typeorm'
 import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
-import { JwtPayload } from 'jsonwebtoken'
 import { User } from '../../src/entity/User'
-import { escape } from 'node:querystring'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
