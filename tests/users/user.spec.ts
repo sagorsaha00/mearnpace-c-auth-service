@@ -7,6 +7,7 @@ import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { JwtPayload } from 'jsonwebtoken'
 import { User } from '../../src/entity/User'
+import { escape } from 'node:querystring'
 
 describe('POST / auth/register', () => {
    let connection: DataSource
@@ -103,11 +104,33 @@ describe('POST / auth/register', () => {
             .get('/auth/self')
             .set('Cookie', `accessToken=${accessToken};`)
             .send()
-         console.log(responce.body)
+
          // Assert user data
 
          //user data check if user data not match throw error
          expect(responce.body).not.toHaveProperty('password')
+      })
+      it('it shoud return 401 if token does not exists', async () => {
+         //register user
+         const userdata = {
+            firstname: 'Sagor',
+            lastname: 'saha',
+            email: 'sahasagor659@gmail.com', // Valid email
+            password: 'secret',
+         }
+
+         const userRepository = connection.getRepository(User)
+         await userRepository.save({
+            ...userdata,
+            role: ROLES.CUSTOMER,
+         })
+
+         //add token in cookie
+         const responce = await request(app).get('/auth/self').send()
+
+         // Assert user data
+
+         expect(responce.statusCode).toBe(401)
       })
    })
 })

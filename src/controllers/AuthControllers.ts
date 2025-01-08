@@ -1,3 +1,4 @@
+// import { validateRegister } from './../validator/login-validator';
 import { AuthRequest } from './../types/index'
 import { error } from 'console'
 import { TokenService } from './../services/TokenService'
@@ -155,12 +156,17 @@ export class AuthControllers {
    }
 
    async self(req: AuthRequest, res: Response) {
-      // console.log('Decoded token:', req.auth) // Assuming the middleware sets req.auth
+      try {
+         const user = await this.userService.findById(Number(req?.auth.sub))
 
-      const user = await this.userService.findById(Number(req?.auth.sub))
-
-      res.json({ ...user, passwrod: undefined })
+         // Remove the password from the response
+         const { password, ...userWithoutPassword } = user ?? {}
+         res.json(userWithoutPassword)
+      } catch (error) {
+         throw createHttpError(500, 'internal server error')
+      }
    }
+   //chatgtp code
    // async self(req: AuthRequest, res: Response) {
    //    try {
    //       if (!req.auth?.sub) {

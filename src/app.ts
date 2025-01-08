@@ -7,6 +7,7 @@ import logger from './config/logger'
 
 const app = express()
 app.use(express.json())
+app.use(express.static('public'))
 app.use(cookieParser())
 app.get('/', (req, res) => {
    res.send('Hello World!')
@@ -17,7 +18,7 @@ app.use('/auth', authRouter)
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
    logger.error(err.message)
-   const statuscode = err.statusCode || 500
+   const statuscode = err.statusCode || err.status || 500
 
    res.status(statuscode).json({
       errors: [
