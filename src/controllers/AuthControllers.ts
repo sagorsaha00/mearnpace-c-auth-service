@@ -166,46 +166,7 @@ export class AuthControllers {
          throw createHttpError(500, 'internal server error')
       }
    }
-   //chatgtp code
-   // async self(req: AuthRequest, res: Response) {
-   //    try {
-   //       if (!req.auth?.sub) {
-   //          return res.status(401).json({
-   //             error: 'Unauthorized - No user ID found in token',
-   //          })
-   //       }
 
-   //       const userId = Number(req?.auth.sub)
-   //       if (isNaN(userId)) {
-   //          return res.status(400).json({
-   //             error: 'Invalid user ID format',
-   //          })
-   //       }
-
-   //       const user = await this.userService.findById(userId)
-   //       if (!user) {
-   //          return res.status(404).json({
-   //             error: 'User not found',
-   //          })
-   //       }
-
-   //       return res.json(user)
-   //    } catch (error) {
-   //       if (error instanceof Error) {
-   //          console.error('Error in self controller:', error)
-   //          return res.status(500).json({
-   //             error: 'Internal server error',
-   //             details: error.message,
-   //          })
-   //       } else {
-   //          console.error('Unknown error:', error)
-   //          return res.status(500).json({
-   //             error: 'Internal server error',
-   //             details: 'Unknown error',
-   //          })
-   //       }
-   //    }
-   // }
    async refresh(req: AuthRequest, res: Response, next: NextFunction) {
       try {
          const payload: JwtPayload = {
@@ -218,6 +179,7 @@ export class AuthControllers {
 
          const user = await this.userService.findById(Number(req.auth.sub))
 
+         //user check
          if (!user) {
             const error = createHttpError(
                400,
@@ -234,6 +196,7 @@ export class AuthControllers {
          //delete old refresh token
          await this.tokenservice.deleteRefreshToken(Number(req.auth.id))
 
+         //refrehtoken genarate
          const refreshToken = this.tokenservice.genarateRefreshToken({
             ...payload,
             id: String(newrefreshtoken.id),
