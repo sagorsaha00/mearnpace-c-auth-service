@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
    //dont-touch in production alawaya keep false
    synchronize: false,
    logging: false,
-   entities: [User, RefreshToken],
+   entities: ['src/entity/*.ts'],
    migrations: ['src/migration/*.ts'],
    subscribers: [],
 })
