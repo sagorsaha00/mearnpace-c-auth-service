@@ -1,7 +1,6 @@
 import bcript from 'bcrypt'
 import { userdata } from './../types/index'
 import { Repository } from 'typeorm'
-import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
 import { ROLES } from '../../constants'
 import createHttpError from 'http-errors'
@@ -47,10 +46,4 @@ export class UserService {
          where: { id },
       })
    }
-
-   // const newUser = {
-   //     id: 'generated-id', // Replace with logic to create or retrieve ID
-
-   //   };
-   //   return newUser
 }
