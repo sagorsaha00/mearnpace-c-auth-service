@@ -35,3 +35,12 @@ export interface config {
    REFRESH_TOKEN_SECRET: string
    JWKS_URI: string
 }
+
+export interface Itanent {
+   name: string
+   address: string
+}
+
+export interface createTenantRepository extends Request {
+   body: Itanent
+}
