@@ -18,9 +18,9 @@ export interface IrefreeshToken {
 }
 export interface AuthRequest extends Request {
    auth: {
-      sub: number
-      role: number
-      id: number
+      sub: string
+      role: string
+      id: string
    }
 }
 export interface config {

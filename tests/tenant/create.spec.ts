@@ -79,5 +79,25 @@ describe('POST /tanents', () => {
          const tanents = await tanentRepository.find()
          expect(tanents).toHaveLength(0)
       })
+      it('should throw 403 if user not admin and dont have any permisson', async () => {
+         const tanantdata = {
+            name: 'tanent name',
+            address: 'tanent addess',
+         }
+         const RolesToken = jwks.token({
+            sub: '1',
+            role: ROLES.MANAGER,
+         })
+         const response = await request(app)
+            .post('/tanents')
+            .set('Cookie', [`accessToken=${RolesToken};`])
+            .send(tanantdata)
+
+         expect(response.statusCode).toBe(403)
+
+         const tanentRepository = connection.getRepository(Tenants)
+         const tanents = await tanentRepository.find()
+         expect(tanents).toHaveLength(0)
+      })
    })
 })
