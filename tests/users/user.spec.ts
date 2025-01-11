@@ -10,8 +10,9 @@ import { User } from '../../src/entity/User'
 describe('POST / auth/register', () => {
    let connection: DataSource
    let jwks: ReturnType<typeof createJWKSMock>
+
    beforeAll(async () => {
-      jwks = createJWKSMock('https://localhost:3000')
+      jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
    })
 
@@ -37,19 +38,20 @@ describe('POST / auth/register', () => {
             sub: '1',
             role: ROLES.CUSTOMER,
          })
-         const responce = await request(app)
+         const response = await request(app)
             .get('/auth/self')
-            .set('Cookie', `accessToken=${accessToken}`)
+            .set('Cookie', [`accessToken=${accessToken};`])
             .send()
-         expect(responce.statusCode).toBe(200)
+
+         expect(response.statusCode).toBe(200)
       })
       //new test
       it('it shoud return user data', async () => {
-         //register user
+         // Register user
          const userdata = {
             firstname: 'Sagor',
             lastname: 'saha',
-            email: 'sahasagor659@gmail.com', // Valid email
+            email: 'sahasagor659@gmail.com',
             password: 'secret',
          }
 
@@ -59,25 +61,23 @@ describe('POST / auth/register', () => {
             role: ROLES.CUSTOMER,
          })
 
-         //genarate token
          const accessToken = jwks.token({
             sub: data.id.toString(),
             role: data.role,
          })
 
-         // console.log('accesstoken', accessToken)
-         // console.log('id number', data.id)
-         //add token in cookie
-         const responce = await request(app)
+         console.log('data', data.id)
+
+         const response = await request(app)
             .get('/auth/self')
-            .set('Cookie', `accessToken=${accessToken};`)
+            .set('Cookie', [`accessToken=${accessToken};`])
             .send()
 
          // Assert user data
-         expect(responce.statusCode).toBe(200)
-         //user data check if user data not match throw error
-         expect(responce.body.id).toBe(data?.id)
+         expect(response.statusCode).toBe(200)
+         expect(response.body.id).toBe(data.id)
       })
+
       it('it shoud not return user password', async () => {
          //register user
          const userdata = {
@@ -100,7 +100,7 @@ describe('POST / auth/register', () => {
          //add token in cookie
          const responce = await request(app)
             .get('/auth/self')
-            .set('Cookie', `accessToken=${accessToken};`)
+            .set('Cookie', [`accessToken=${accessToken};`])
             .send()
 
          // Assert user data

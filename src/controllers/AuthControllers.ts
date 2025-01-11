@@ -156,16 +156,28 @@ export class AuthControllers {
    }
 
    async self(req: AuthRequest, res: Response) {
-      try {
-         const user = await this.userService.findById(Number(req?.auth.sub))
-
-         // Remove the password from the response
-         const { password, ...userWithoutPassword } = user ?? {}
-         res.json(userWithoutPassword)
-      } catch (error) {
-         throw createHttpError(500, 'internal server error')
-      }
+      const user = await this.userService.findById(Number(req.auth.sub))
+      const { password, ...userWithoutPassword } = user || {}
+      res.json(userWithoutPassword)
    }
+
+   //chtgpt code
+   // async self(req: AuthRequest, res: Response) {
+   //    try {
+   //       const user = await this.userService.findById(req.auth.sub)
+
+   //       if (!user) {
+   //          return res.status(404).json({ message: 'User not found' })
+   //       }
+
+   //       // Remove the password from the response
+   //       const { password, ...userWithoutPassword } = user || {}
+   //       return res.json(userWithoutPassword)
+   //    } catch (error) {
+   //       console.error('Error in /auth/self:', error) // Log the error
+   //       throw createHttpError(500, 'this code error pass')
+   //    }
+   // }
 
    async refresh(req: AuthRequest, res: Response, next: NextFunction) {
       try {
