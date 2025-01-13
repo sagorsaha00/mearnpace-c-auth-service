@@ -13,6 +13,7 @@ import createHttpError from 'http-errors'
 
 import { credentialService } from '../services/credentialService'
 import { AppDataSource } from '../config/data-source'
+import { ROLES } from '../../constants'
 
 export class AuthControllers {
    constructor(
@@ -44,6 +45,7 @@ export class AuthControllers {
             lastname,
             email,
             password,
+            role: ROLES.MANAGER,
          })
          this.logger.info('user has been registerd', { id: user.id })
 

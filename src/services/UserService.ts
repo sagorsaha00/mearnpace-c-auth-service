@@ -9,7 +9,7 @@ export class UserService {
    // userRepository: any
    constructor(private userRepository: Repository<User>) {}
 
-   async create({ firstname, lastname, email, password }: userdata) {
+   async create({ firstname, lastname, email, password, role }: userdata) {
       //already email exists
       const user = await this.userRepository.findOne({
          where: { email: email },
@@ -29,7 +29,7 @@ export class UserService {
             lastname,
             email,
             password: HasPassword,
-            role: ROLES.CUSTOMER,
+            role,
          })
       } catch (error) {
          throw error

@@ -5,6 +5,7 @@ import { HttpError } from 'http-errors'
 import authRouter from './routes/auth'
 import logger from './config/logger'
 import tanentRouter from './routes/tanent'
+import userRouter from './routes/user'
 const app = express()
 app.use(express.json())
 app.use(express.static('public'))
@@ -14,6 +15,7 @@ app.get('/', (req, res) => {
 })
 app.use('/auth', authRouter)
 app.use('/tanents', tanentRouter)
+app.use('/users', userRouter)
 
 //global error-handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

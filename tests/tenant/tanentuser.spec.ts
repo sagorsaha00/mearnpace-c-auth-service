@@ -21,11 +21,6 @@ describe('POST /tanents', () => {
       jwks.start()
       await connection.dropDatabase()
       await connection.synchronize()
-
-      adminToken = jwks.token({
-         sub: '1',
-         role: ROLES.ADMIN,
-      })
    })
 
    afterAll(async () => {
@@ -43,22 +38,34 @@ describe('POST /tanents', () => {
             name: 'tanent name',
             address: 'tanent addess',
          }
-         const responce = await request(app)
+         const adminToken = jwks.token({
+            sub: '1',
+            role: ROLES.ADMIN,
+         })
+         const response = await request(app)
             .post('/tanents')
             .set('Cookie', [`accessToken=${adminToken};`])
             .send(tanantdata)
 
-         expect(responce.statusCode).toBe(201)
+         console.log('responce request ok', response)
+
+         expect(response.statusCode).toBe(201)
       })
       it('should create a tanent in database', async () => {
          const tanantdata = {
             name: 'tanent name',
             address: 'tanent addess',
          }
+         const adminToken = jwks.token({
+            sub: '1',
+            role: ROLES.ADMIN,
+         })
          await request(app)
             .post('/tanents')
             .set('Cookie', [`accessToken=${adminToken};`])
             .send(tanantdata)
+
+         console.log('responce request complete')
 
          const tanentRepository = connection.getRepository(Tenants)
          const tanents = await tanentRepository.find()

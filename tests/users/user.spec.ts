@@ -1,4 +1,3 @@
-import { body } from 'express-validator'
 import createJWKSMock from 'mock-jwks'
 import { ROLES } from './../../constants/index'
 import { DataSource } from 'typeorm'
@@ -65,8 +64,6 @@ describe('POST / auth/register', () => {
             sub: data.id.toString(),
             role: data.role,
          })
-
-         console.log('data', data.id)
 
          const response = await request(app)
             .get('/auth/self')
