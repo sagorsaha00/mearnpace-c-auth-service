@@ -31,11 +31,11 @@ export class UserController {
    }
    async getAll(req: Request, res: Response, next: NextFunction) {
       try {
-         const user = this.userService.getAll()
-         this.logger.info('getting all user fetched')
-         res.json({ user })
-      } catch (error) {
-         const err = createHttpError(404, 'user not fetched')
+         const users = await this.userService.getAll()
+
+         this.logger.info('All users have been fetched')
+         res.json(users)
+      } catch (err) {
          next(err)
       }
    }

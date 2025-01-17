@@ -45,10 +45,10 @@ describe('POST /tanents', () => {
             role: ROLES.ADMIN,
          })
          const response = await request(app)
-            .post('/tanents')
+            .post('/tenents')
             .set('Cookie', [`accessToken=${adminToken};`])
             .send(tenantData)
-         console.log('Response:', response.body)
+
          expect(response.statusCode).toBe(201)
       })
 
@@ -62,11 +62,9 @@ describe('POST /tanents', () => {
             role: ROLES.ADMIN,
          })
          await request(app)
-            .post('/tanents')
+            .post('/tenents')
             .set('Cookie', [`accessToken=${adminToken};`])
             .send(tanantdata)
-
-         console.log('responce request complete')
 
          const tanentRepository = connection.getRepository(Tenants)
          const tanents = await tanentRepository.find()
@@ -79,7 +77,7 @@ describe('POST /tanents', () => {
             name: 'tanent name',
             address: 'tanent addess',
          }
-         const response = await request(app).post('/tanents').send(tanantdata)
+         const response = await request(app).post('/tenents').send(tanantdata)
 
          expect(response.statusCode).toBe(401)
 
@@ -97,7 +95,7 @@ describe('POST /tanents', () => {
             role: ROLES.MANAGER,
          })
          const response = await request(app)
-            .post('/tanents')
+            .post('/tenents')
             .set('Cookie', [`accessToken=${RolesToken};`])
             .send(tanantdata)
 
@@ -110,7 +108,6 @@ describe('POST /tanents', () => {
    })
 })
 
-// import { DataSource } from "typeorm";
 // import request from "supertest";
 // import { AppDataSource } from "../../src/config/data-source";
 // import app from "../../src/app";

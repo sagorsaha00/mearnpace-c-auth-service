@@ -24,4 +24,7 @@ router.post(
       tanentController.create(req, res)
    },
 )
+// router.post('/',(req,res) => {
+//    res.json({})
+// })
 export default router

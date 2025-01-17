@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
    res.send('Hello World!')
 })
 app.use('/auth', authRouter)
-app.use('/tanents', tanentRouter)
+app.use('/tenents', tanentRouter)
 app.use('/users', userRouter)
 
 //global error-handler

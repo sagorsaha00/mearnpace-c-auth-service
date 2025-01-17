@@ -49,6 +49,6 @@ export class UserService {
    }
 
    async getAll() {
-      this.userRepository.find()
+      return await this.userRepository.find()
    }
 }
