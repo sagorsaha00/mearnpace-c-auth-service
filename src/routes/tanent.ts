@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import { TanentControllers } from '../controllers/TanentControllers'
 import { TanentService } from '../services/TanentService'
 import { AppDataSource } from '../config/data-source'
@@ -13,7 +13,15 @@ const tanentRepository = AppDataSource.getRepository(Tenants)
 const tanentService = new TanentService(tanentRepository)
 const tanentController = new TanentControllers(tanentService, logger)
 
-router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res) =>
-   tanentController.create(req, res),
+// router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res) =>
+//    tanentController.create(req, res),
+// )
+router.post(
+   '/',
+   authenticate,
+   canAccess([ROLES.ADMIN]),
+   (req: Request, res: Response) => {
+      tanentController.create(req, res)
+   },
 )
 export default router

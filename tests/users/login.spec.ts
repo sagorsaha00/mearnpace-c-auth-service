@@ -19,15 +19,6 @@ describe('POST / auth/login', () => {
       await connection.synchronize()
       // console.log('Database synchronized.')
 
-      const hashedPassword = await bcrypt.hash('password', 10) // Hash the password
-
-      await connection.getRepository(User).save({
-         firstname: 'Test',
-         lastname: 'User',
-         email: 'sahasagor620@gmail.com',
-         password: hashedPassword, // Save the hashed password
-         role: ROLES.CUSTOMER,
-      })
       // console.log('Test user added.')
    })
 
@@ -41,9 +32,20 @@ describe('POST / auth/login', () => {
 
    describe('given all field', () => {
       it('should return 201 if email and password is valid', async () => {
+         const hashedPassword = await bcrypt.hash('password', 10) // Hash the password
+
+         await connection.getRepository(User).save({
+            firstname: 'Test',
+            lastname: 'User',
+            email: 'sahasagor620@gmail.com',
+            password: hashedPassword, // Save the hashed password
+            role: ROLES.CUSTOMER,
+         })
+         // const users = await userRepository.find({select:["password"]})
          const result = await new LoginService(
             connection.getRepository(User),
          ).login('sahasagor620@gmail.com', 'password')
+
          expect(result).toBe(201)
       })
    })

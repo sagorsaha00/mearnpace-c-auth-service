@@ -10,9 +10,7 @@ import { UserService } from '../services/UserService'
 import { Response, Request, NextFunction } from 'express' // Correct import for Response and Request
 import { validationResult } from 'express-validator'
 import createHttpError from 'http-errors'
-
 import { credentialService } from '../services/credentialService'
-import { AppDataSource } from '../config/data-source'
 import { ROLES } from '../../constants'
 
 export class AuthControllers {
@@ -98,7 +96,7 @@ export class AuthControllers {
 
       //user email check if email aldredy here throw error for user
       try {
-         const user = await this.userService.findoneByemail(email)
+         const user = await this.userService.findByemailwithpassword(email)
 
          if (!user) {
             const error = createHttpError(404, 'password and email doest match')

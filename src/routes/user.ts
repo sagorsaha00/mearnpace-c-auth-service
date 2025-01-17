@@ -6,13 +6,17 @@ import { UserController } from '../controllers/UserController'
 import { UserService } from '../services/UserService'
 import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
-
+import logger from '../config/logger'
 const router = express.Router()
+
 const user = AppDataSource.getRepository(User)
 const userService = new UserService(user)
-const userController = new UserController(userService)
+const userController = new UserController(userService, logger)
 
 router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
    userController.create(req, res, next),
+)
+router.get('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
+   userController.getAll(req, res, next),
 )
 export default router

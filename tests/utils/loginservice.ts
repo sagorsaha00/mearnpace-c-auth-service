@@ -11,7 +11,15 @@ export class LoginService {
    }
 
    async login(email: string, password: string): Promise<number> {
-      const user = await this.userRepository.findOne({ where: { email } })
+      // const user = await this.userRepository.findOne({ where: { email }  })
+      // const user = await this.userRepository.find({
+      //    where: { email },
+      //    select: ['password'], // Explicitly select the password field
+      // });
+      const user = await this.userRepository.findOne({
+         where: { email },
+         select: ['id', 'email', 'password'],
+      })
       // console.log('user name ', user)
       if (!user) {
          const error = createHttpError(404, 'user and password are not match')

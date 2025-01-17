@@ -6,7 +6,7 @@ import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 
-describe('POST / auth/register', () => {
+describe('POST / auth/self', () => {
    let connection: DataSource
    let jwks: ReturnType<typeof createJWKSMock>
 
@@ -37,12 +37,12 @@ describe('POST / auth/register', () => {
             sub: '1',
             role: ROLES.CUSTOMER,
          })
-         const response = await request(app)
+         const responce = await request(app)
             .get('/auth/self')
             .set('Cookie', [`accessToken=${accessToken};`])
             .send()
 
-         expect(response.statusCode).toBe(200)
+         expect(responce.statusCode).toBe(200)
       })
       //new test
       it('it shoud return user data', async () => {
@@ -64,15 +64,19 @@ describe('POST / auth/register', () => {
             sub: data.id.toString(),
             role: data.role,
          })
-
-         const response = await request(app)
+         const responce = await request(app)
             .get('/auth/self')
             .set('Cookie', [`accessToken=${accessToken};`])
             .send()
 
+         // const response = await request(app)
+         //    .get('/auth/self')
+         //    .set('Cookie', [`accessToken=${accessToken};`])
+         //    .send()
+
          // Assert user data
-         expect(response.statusCode).toBe(200)
-         expect(response.body.id).toBe(data.id)
+         expect(responce.statusCode).toBe(200)
+         expect(responce.body.id).toBe(data.id)
       })
 
       it('it shoud not return user password', async () => {
