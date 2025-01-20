@@ -6,7 +6,7 @@ import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
 
-describe('POST / auth/self', () => {
+describe('POST / users', () => {
    let connection: DataSource
    let jwks: ReturnType<typeof createJWKSMock>
 
@@ -142,7 +142,26 @@ describe('POST / auth/self', () => {
 
          expect(response.status).toBe(403)
       })
+
+      it('should return 200 if valid token and user ID are provided', async () => {
+         // Generate token with appropriate role
+         const accessToken = jwks.token({
+            sub: '1',
+            role: ROLES.ADMIN,
+         })
+
+         const response = await request(app)
+            .get('/users/1')
+            .set('Cookie', [`accessToken=${accessToken};`])
+
+         console.log('responce-body', response.body)
+
+         // Debug logs
+
+         // Assertions
+         expect(response.statusCode).toBe(200)
+         expect(response.body).not.toBeNull()
+         expect(response.body).toHaveProperty('id', 1) // Example assertion for user ID
+      })
    })
 })
-
-// Extend timeout if necessary

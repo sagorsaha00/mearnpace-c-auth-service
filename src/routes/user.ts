@@ -19,4 +19,8 @@ router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
 router.get('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
    userController.getAll(req, res, next),
 )
+router.get('/:id', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
+   userController.getOne(req, res, next),
+)
+
 export default router

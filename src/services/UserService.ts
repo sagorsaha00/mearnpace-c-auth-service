@@ -2,7 +2,7 @@ import bcript from 'bcrypt'
 import { userdata } from './../types/index'
 import { Repository } from 'typeorm'
 import { User } from '../entity/User'
-import { ROLES } from '../../constants'
+
 import createHttpError from 'http-errors'
 
 export class UserService {
