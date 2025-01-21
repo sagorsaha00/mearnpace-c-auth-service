@@ -51,4 +51,10 @@ export class UserService {
    async getAll() {
       return await this.userRepository.find()
    }
+   async getOne(id: number): Promise<User | null> {
+      return await this.userRepository.findOne({ where: { id } })
+   }
+   async deleteById(userId: number) {
+      return await this.userRepository.delete(userId)
+   }
 }

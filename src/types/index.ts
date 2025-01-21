@@ -17,6 +17,11 @@ export interface authcookie {
 export interface IrefreeshToken {
    id: string
 }
+export interface AuthNumber extends Request {
+   auth: {
+      id: Number
+   }
+}
 export interface AuthRequest extends Request {
    auth: {
       sub: string
@@ -47,4 +52,12 @@ export interface createTenantRepository extends Request {
 }
 export interface createUserRepository extends Request {
    body: userdata
+}
+interface getUserdata extends Request {
+   params: {
+      id?: string
+      firstname?: string
+      lastname?: string
+      email?: string
+   }
 }

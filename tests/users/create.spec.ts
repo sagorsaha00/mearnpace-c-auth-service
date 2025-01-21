@@ -13,6 +13,14 @@ describe('POST / users', () => {
    beforeAll(async () => {
       jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
+      const userRepository = connection.getRepository(User)
+      await userRepository.save({
+         id: 1,
+         firstname: 'Test',
+         lastname: 'User',
+         email: 'sahasagor620@gmail.com',
+         role: 'customer',
+      })
    })
 
    beforeEach(async () => {
@@ -139,29 +147,64 @@ describe('POST / users', () => {
          const response = await request(app)
             .get('/users')
             .set('Cookie', [`accessToken=${customerToken}`])
+            .send()
 
          expect(response.status).toBe(403)
       })
 
-      it('should return 200 if valid token and user ID are provided', async () => {
+      it('should return 200 if get user id', async () => {
+         // Create test user
+         const userRepository = connection.getRepository(User)
+         const user = await userRepository.create({
+            firstname: 'John',
+            lastname: 'Doe',
+            email: 'johndoe@gmail.com',
+            password: 'hashedpassword',
+            role: 'customer',
+         })
+         await userRepository.save(user)
+         const adminToken = jwks.token({
+            sub: '1',
+            role: ROLES.ADMIN,
+         })
+
+         // Fetch user by ID
+         const response = await request(app)
+            .get(`/users/${user.id}`)
+            .set('Cookie', [`accessToken=${adminToken}`])
+            .expect(200)
+
+         expect(response.body).toHaveProperty('id', user.id)
+      })
+      it('should return 200 when deleting an existing user', async () => {
+         // Create test user
+         const userRepository = connection.getRepository(User)
+         const user = await userRepository.create({
+            firstname: 'John',
+            lastname: 'Doe',
+            email: 'johndoe@gmail.com',
+            password: 'hashedpassword',
+            role: 'customer',
+         })
+         await userRepository.save(user)
+
          // Generate token with appropriate role
          const accessToken = jwks.token({
             sub: '1',
             role: ROLES.ADMIN,
          })
 
+         // Make the DELETE request
          const response = await request(app)
-            .get('/users/1')
+            .delete(`/users/${user.id}`)
             .set('Cookie', [`accessToken=${accessToken};`])
 
-         console.log('responce-body', response.body)
-
-         // Debug logs
+         console.log('response-body', response.body)
+         console.log('response-statuscode', response.status)
 
          // Assertions
-         expect(response.statusCode).toBe(200)
-         expect(response.body).not.toBeNull()
-         expect(response.body).toHaveProperty('id', 1) // Example assertion for user ID
+         expect(response.status).toBe(200)
+         expect(response.body).toHaveProperty('id', user.id)
       })
    })
 })
