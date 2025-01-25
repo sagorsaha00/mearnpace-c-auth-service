@@ -199,9 +199,6 @@ describe('POST / users', () => {
             .delete(`/users/${user.id}`)
             .set('Cookie', [`accessToken=${accessToken};`])
 
-         console.log('response-body', response.body)
-         console.log('response-statuscode', response.status)
-
          // Assertions
          expect(response.status).toBe(200)
          expect(response.body).toHaveProperty('id', user.id)

@@ -5,6 +5,7 @@
    "main": "index.js",
    "scripts": {
       "dev": "cross-env NODE_ENV=dev nodemon -L src/server.ts",
+      "build": "tsc",
       "format:check": "prettier . --check",
       "format:fix": "prettier . -write",
       "lint:fix": "eslint .ts src --fix",
@@ -61,7 +62,7 @@
       "supertest": "^6.3.3",
       "ts-jest": "^29.1.1",
       "ts-node": "10.7.0",
-      "typescript": "4.5.2"
+      "typescript": "^5.7.3"
    },
    "lint-staged": {
       "*.ts": [

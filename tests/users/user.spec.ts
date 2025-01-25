@@ -69,12 +69,6 @@ describe('POST / auth/self', () => {
             .set('Cookie', [`accessToken=${accessToken};`])
             .send()
 
-         // const response = await request(app)
-         //    .get('/auth/self')
-         //    .set('Cookie', [`accessToken=${accessToken};`])
-         //    .send()
-
-         // Assert user data
          expect(responce.statusCode).toBe(200)
          expect(responce.body.id).toBe(data.id)
       })
