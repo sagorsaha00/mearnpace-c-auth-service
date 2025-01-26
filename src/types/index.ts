@@ -40,6 +40,7 @@ export interface config {
    JWT_SECRET: string
    REFRESH_TOKEN_SECRET: string
    JWKS_URI: string
+   PRIVATE_KEY: string
 }
 
 export interface Itanent {

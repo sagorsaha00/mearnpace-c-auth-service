@@ -1,4 +1,3 @@
-// import { validateRegister } from './../validator/login-validator';
 import { AuthRequest } from './../types/index'
 import { error } from 'console'
 import { TokenService } from './../services/TokenService'

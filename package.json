@@ -10,7 +10,8 @@
       "format:fix": "prettier . -write",
       "lint:fix": "eslint .ts src --fix",
       "prepare": "husky install",
-      "test": "jest --watch --runInBand",
+      "test": "jest --no-cache --coverage --all  --runInBand",
+      "test:watch":"jest --watch --runInBand",
       "start": "ts-node src/index.ts",
       "migration:generate": "typeorm-ts-node-commonjs migration:generate",
       "migration:run": "typeorm-ts-node-commonjs migration:run"
@@ -66,7 +67,8 @@
    },
    "lint-staged": {
       "*.ts": [
-         "npm run format:fix"
+         "npm run format:fix",
+         "npm run format:check"
       ]
    }
 }
