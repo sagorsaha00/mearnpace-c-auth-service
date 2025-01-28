@@ -20,10 +20,9 @@ describe('POST / auth/self', () => {
       await connection.dropDatabase()
       await connection.synchronize()
    })
-
    afterAll(async () => {
       jwks.stop()
-      if (connection && connection.isInitialized) {
+      if (connection) {
          await connection.destroy()
       } else {
          console.log('Connection was not initialized, skipping cleanup')
