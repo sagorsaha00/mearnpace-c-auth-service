@@ -18,6 +18,13 @@ export default tseslint.config(
             tsconfigRootDir: import.meta.dirname,
          },
       },
+
+      parser: "@typescript-eslint/parser",
+      plugins: ["@typescript-eslint"],
+      extends: [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
       rules: {
          // "no-console": "error",
          // "dot-notation": "error",
