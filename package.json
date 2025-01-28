@@ -9,6 +9,7 @@
       "format:check": "prettier . --check",
       "format:fix": "prettier . -write",
       "lint:fix": "eslint .ts src --fix",
+      "lint": "eslint",
       "prepare": "husky install",
       "test": "jest --no-cache --coverage --all  --runInBand",
       "test:watch": "jest --watch --runInBand",
