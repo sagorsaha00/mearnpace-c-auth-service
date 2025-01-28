@@ -6,7 +6,6 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config(
    eslint.configs.recommended,
    ...tseslint.configs.recommendedTypeChecked,
- 
 
    {
       ignores: ['dist', 'node-modules', 'eslint.config.mjs', 'jest.config.js'],
@@ -19,12 +18,9 @@ export default tseslint.config(
          },
       },
 
-      parser: "@typescript-eslint/parser",
-      plugins: ["@typescript-eslint"],
-      extends: [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
-      ],
+      parser: '@typescript-eslint/parser',
+      plugins: ['@typescript-eslint'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
       rules: {
          // "no-console": "error",
          // "dot-notation": "error",
@@ -32,5 +28,3 @@ export default tseslint.config(
       },
    },
 )
- 
- 
