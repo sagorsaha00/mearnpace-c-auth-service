@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
    host: 'localhost',
    port: Number(Config.DB_PORT),
    username: 'root',
-   password: 'root', // Explicit string conversion
+   password: 'root', // Explicit string conversion//v
    database: 'mearstack_auth-service',
    //dont-touch in production alawaya keep false
    synchronize: false,
