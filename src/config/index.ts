@@ -19,5 +19,5 @@ export const Config: config = {
    REFRESH_TOKEN_SECRET:
       process.env.REFRESH_TOKEN_SECRET || 'default_refresh_secret',
    JWKS_URI: process.env.JWKS_URI!,
-   PRIVATE_KEY: process.env.PRIVATE_KEY!.toString() ?? 'default_private_key',
+   PRIVATE_KEY: process.env.PRIVATE_KEY?.toString() ?? 'default_private_key',
 }
