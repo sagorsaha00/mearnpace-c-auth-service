@@ -81,7 +81,7 @@ describe('POST / auth/register', () => {
          const users = await userRepository.find()
          expect(users).toHaveLength(1)
       })
-      it('its shoud assign a customer a role ', async () => {
+      it('its shoud assign a customer a role', async () => {
          const userdata = {
             firstname: 'Sagor',
             lastname: 'saha',
