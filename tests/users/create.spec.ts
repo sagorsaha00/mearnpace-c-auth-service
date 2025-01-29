@@ -34,7 +34,11 @@ describe('POST / users', () => {
    })
 
    afterAll(async () => {
-      await connection.destroy()
+      if (connection.isInitialized) {
+         await connection.destroy()
+      } else {
+         console.log('Connection was not initialized, skipping cleanup')
+      }
    })
 
    describe('given all field', () => {
