@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken'
 import { JwtPayload } from 'jsonwebtoken'
 import { Config } from '../config'
 import { User } from '../entity/User'
-import { AppDataSource } from '../config/data-source'
+
 import { RefreshToken } from '../entity/RefreshToken'
 import { Repository } from 'typeorm'
 export class TokenService {
@@ -19,8 +19,7 @@ export class TokenService {
       }
       try {
          privateKey = Config.PRIVATE_KEY
-      } catch (err) {
-         const error = createHttpError(500, 'Internal Server Error')
+      } catch (error) {
          throw error
       }
       const accessToken = jwt.sign(payload, privateKey, {
@@ -32,7 +31,7 @@ export class TokenService {
    }
    genarateRefreshToken(payload: JwtPayload) {
       //   console.log(payload);
-      const refreshToken = jwt.sign(payload, Config.REFRESH_TOKEN_SECRET!, {
+      const refreshToken = jwt.sign(payload, Config.REFRESH_TOKEN_SECRET, {
          algorithm: 'HS256',
          expiresIn: '1y',
          issuer: 'Auth-Service',

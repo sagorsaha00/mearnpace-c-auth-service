@@ -1,7 +1,6 @@
-import { error } from 'console'
 import { Logger } from 'winston'
 import { ROLES } from '../../constants'
-import { AuthNumber, AuthRequest, createUserRepository } from '../types'
+import { createUserRepository } from '../types'
 import { UserService } from './../services/UserService'
 import { Request, Response, NextFunction } from 'express'
 import createHttpError from 'http-errors'

@@ -1,8 +1,7 @@
 import { AuthRequest } from './../types/index'
-import { error } from 'console'
+
 import { TokenService } from './../services/TokenService'
-import fs from 'fs'
-import * as jwt from 'jsonwebtoken'
+
 import { JwtPayload } from 'jsonwebtoken'
 import { Logger } from 'winston'
 import { UserService } from '../services/UserService'

@@ -7,7 +7,7 @@ import { RefreshToken } from '../src/entity/RefreshToken'
 
 import logger from '../src/config/logger'
 export default expressjwt({
-   secret: Config.REFRESH_TOKEN_SECRET!,
+   secret: Config.REFRESH_TOKEN_SECRET,
    algorithms: ['HS256'], // add this line
 
    getToken(req: Request) {

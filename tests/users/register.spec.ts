@@ -1,4 +1,3 @@
-import { body } from 'express-validator'
 import { ROLES } from './../../constants/index'
 import { DataSource } from 'typeorm'
 import app from '../../src/app'

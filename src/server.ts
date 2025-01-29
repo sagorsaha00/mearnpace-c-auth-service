@@ -1,4 +1,3 @@
-import { error } from 'console'
 import app from './app'
 import { Config } from './config'
 import { AppDataSource } from './config/data-source'

@@ -7,7 +7,7 @@ import { UserService } from '../services/UserService'
 import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
 import logger from '../config/logger'
-import { AuthNumber, AuthRequest } from '../types'
+import { AuthNumber } from '../types'
 const router = express.Router()
 
 const user = AppDataSource.getRepository(User)

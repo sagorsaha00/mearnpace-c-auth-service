@@ -19,7 +19,7 @@ export interface IrefreeshToken {
 }
 export interface AuthNumber extends Request {
    auth: {
-      id: Number
+      id: string
    }
 }
 export interface AuthRequest extends Request {
@@ -54,11 +54,11 @@ export interface createTenantRepository extends Request {
 export interface createUserRepository extends Request {
    body: userdata
 }
-interface getUserdata extends Request {
-   params: {
-      id?: string
-      firstname?: string
-      lastname?: string
-      email?: string
-   }
-}
+// interface getUserdata extends Request {
+//    params: {
+//       id?: string
+//       firstname?: string
+//       lastname?: string
+//       email?: string
+//    }
+// }

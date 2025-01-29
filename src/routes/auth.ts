@@ -4,7 +4,7 @@ import { UserService } from '../services/UserService'
 import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
 import logger from '../config/logger'
-import { body } from 'express-validator'
+
 import { registerValidator } from '../validator/register-validator'
 import { TokenService } from '../services/TokenService'
 import { RefreshToken } from '../entity/RefreshToken'
@@ -43,7 +43,7 @@ router.post(
 router.get(
    '/self',
    authenticate, // Fixed validation method from isEmpty to notEmpty
-   (req: Request, res: Response, next: NextFunction) =>
+   (req: Request, res: Response) =>
       authControllers.self(req as AuthRequest, res),
 )
 router.post(

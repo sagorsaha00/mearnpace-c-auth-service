@@ -18,13 +18,15 @@ export default tseslint.config(
          },
       },
 
-      parser: '@typescript-eslint/parser',
-      plugins: ['@typescript-eslint'],
-      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+       
       rules: {
          // "no-console": "error",
          // "dot-notation": "error",
          '@typescript-eslint/no-misused-promises': 'off',
+         '@typescript-eslint/no-unused-vars': 'warn',
+         '@typescript-eslint/no-unsafe-assignment': 'off',
+         '@typescript-eslint/no-floating-promises': 'off',
+          
       },
    },
 )

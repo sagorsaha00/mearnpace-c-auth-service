@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
 import { TanentService } from '../services/TanentService'
 import { createTenantRepository } from '../types'
 import { Logger } from 'winston'
@@ -15,6 +15,8 @@ export class TanentControllers {
          const tanent = await this.tanentservice.create({ name, address })
          this.logger.info('tanent has been create', { id: tanent.id })
          res.status(201).json({ id: tanent.id })
-      } catch (error) {}
+      } catch (error) {
+         throw error
+      }
    }
 }
