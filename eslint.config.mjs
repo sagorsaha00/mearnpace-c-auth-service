@@ -22,9 +22,10 @@ export default tseslint.config(
          // "no-console": "error",
          // "dot-notation": "error",
          '@typescript-eslint/no-misused-promises': 'off',
-         '@typescript-eslint/no-unused-vars': 'warn',
+         '@typescript-eslint/no-unused-vars': 'off',
          '@typescript-eslint/no-unsafe-assignment': 'off',
          '@typescript-eslint/no-floating-promises': 'off',
+           "@typescript-eslint/parser": "off"
       },
    },
 )

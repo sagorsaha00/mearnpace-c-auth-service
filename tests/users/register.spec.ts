@@ -4,8 +4,8 @@ import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
-import { jtwt, truncateTabels } from '../utils'
-import { Headers } from 'jwks-rsa'
+import { jtwt } from '../utils'
+
 import { RefreshToken } from '../../src/entity/RefreshToken'
 
 describe('POST / auth/register', () => {
