@@ -18,7 +18,6 @@ export default tseslint.config(
          },
       },
 
-       
       rules: {
          // "no-console": "error",
          // "dot-notation": "error",
@@ -26,7 +25,6 @@ export default tseslint.config(
          '@typescript-eslint/no-unused-vars': 'warn',
          '@typescript-eslint/no-unsafe-assignment': 'off',
          '@typescript-eslint/no-floating-promises': 'off',
-          
       },
    },
 )
