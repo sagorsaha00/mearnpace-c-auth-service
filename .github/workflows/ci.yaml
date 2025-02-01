@@ -19,7 +19,7 @@ jobs:
          - name: Install dependencies
            run: npm ci
 
-           -name:Run Eslint
+           - name: Run Eslint
            run: npm run lint
 
            
