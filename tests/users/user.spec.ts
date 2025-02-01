@@ -67,9 +67,12 @@ describe('POST / auth/self', () => {
             .get('/auth/self')
             .set('Cookie', [`accessToken=${accessToken};`])
             .send()
+         interface ResponseBody {
+            id: number
+         }
 
          expect(responce.statusCode).toBe(200)
-         expect(responce.body.id).toBe(data.id)
+         expect((responce.body as ResponseBody).id).toBe(data.id)
       })
 
       it('it shoud not return user password', async () => {
