@@ -13,7 +13,6 @@ const parseRefreshToken = expressjwt({
          const cookies = req.cookies as authcookie
          return cookies?.refreshToken
       } catch (error) {
-         error
          return undefined
       }
    },

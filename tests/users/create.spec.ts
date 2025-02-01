@@ -159,7 +159,7 @@ describe('POST / users', () => {
       it('should return 200 if get user id', async () => {
          // Create test user
          const userRepository = connection.getRepository(User)
-         const user = await userRepository.create({
+         const user = userRepository.create({
             firstname: 'John',
             lastname: 'Doe',
             email: 'johndoe@gmail.com',
@@ -183,7 +183,7 @@ describe('POST / users', () => {
       it('should return 200 when deleting an existing user', async () => {
          // Create test user
          const userRepository = connection.getRepository(User)
-         const user = await userRepository.create({
+         const user = userRepository.create({
             firstname: 'John',
             lastname: 'Doe',
             email: 'johndoe@gmail.com',
