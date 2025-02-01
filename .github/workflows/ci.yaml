@@ -19,6 +19,9 @@ jobs:
          - name: Install dependencies
            run: npm ci
 
+         -name:Project Test Code Cheak
+         run: npm run test
+
            env:
               DB_HOST: ${{ secrets.TEST_DB_HOST }}
               DB_PORT: ${{ secrets.TEST_DB_PORT }}
