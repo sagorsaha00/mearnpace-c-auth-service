@@ -17,7 +17,7 @@ RUN npm install -g nodemon
 COPY . .
 
 # Expose the required port
-EXPOSE 5551
+EXPOSE 5500
 
 # Default command
 CMD ["npm", "run", "dev"]
