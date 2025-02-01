@@ -51,7 +51,7 @@ dotenv.config({ path: envPath })
 
 // Helper to ensure clean string values
 const cleanEnvValue = (value: string | undefined): string => {
-   return value?.trim().replace(/,+$/, '') || ''
+   return value?.trim() || ''
 }
 
 export const Config: types.config = {

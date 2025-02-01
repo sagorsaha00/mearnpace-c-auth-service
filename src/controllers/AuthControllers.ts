@@ -94,7 +94,9 @@ export class AuthControllers {
 
       //user email check if email aldredy here throw error for user
       try {
-         const user = await this.userService.findByemailwithpassword(email)
+         const user = await this.userService.findByemailwithpassword(
+            String(email),
+         )
 
          if (!user) {
             const error = createHttpError(404, 'password and email doest match')
@@ -105,7 +107,7 @@ export class AuthControllers {
          //user password check if user passeord and  input passwrod not match throw error function
 
          const passwrodMatch = await this.credentialservice.comparePassword(
-            password,
+            String(password),
             user.password,
          )
 

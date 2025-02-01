@@ -11,17 +11,13 @@ export class TokenService {
    constructor(private refreshtokenrepository: Repository<RefreshToken>) {}
 
    genarateAccessToken(payload: JwtPayload) {
-      let privateKey: string
-
       if (!Config.PRIVATE_KEY) {
          const error = createHttpError(500, 'SECRET_KEY not set')
          throw error
       }
-      try {
-         privateKey = Config.PRIVATE_KEY
-      } catch (error) {
-         throw error
-      }
+
+      const privateKey = Config.PRIVATE_KEY
+
       const accessToken = jwt.sign(payload, privateKey, {
          algorithm: 'RS256',
          expiresIn: '1h',
