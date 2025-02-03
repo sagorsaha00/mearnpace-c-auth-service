@@ -7,16 +7,12 @@ function next(error: createHttpError.HttpError<404>) {
 export class LoginService {
    private userRepository
 
-   constructor(userRepository: any) {
+   constructor(userRepository: unknown) {
       this.userRepository = userRepository
    }
 
    async login(email: string, password: string): Promise<number> {
-      // const user = await this.userRepository.findOne({ where: { email }  })
-      // const user = await this.userRepository.find({
-      //    where: { email },
-      //    select: ['password'], // Explicitly select the password field
-      // });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const user = await this.userRepository.findOne({
          where: { email },
          select: ['id', 'email', 'password'],

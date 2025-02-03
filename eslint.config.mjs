@@ -19,13 +19,15 @@ export default tseslint.config(
       },
 
       rules: {
-         // "no-console": "error",
-         // "dot-notation": "error",
-         '@typescript-eslint/no-misused-promises': 'off',
+         'no-console': 'error',
+         'dot-notation': 'error',
+         // '@typescript-eslint/no-misused-promises': 'off',
          '@typescript-eslint/no-unused-vars': 'off',
          '@typescript-eslint/no-unsafe-assignment': 'off',
          '@typescript-eslint/no-floating-promises': 'off',
          '@typescript-eslint/parser': 'off',
+         '@typescript-eslint/no-unsafe-call': 'off',
+          ' @typescript-eslint/no-misused-promises':'off'
       },
    },
 )

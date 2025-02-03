@@ -5,6 +5,7 @@ import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
+import { error } from 'console'
 
 describe('POST / users', () => {
    let connection: DataSource
@@ -37,7 +38,7 @@ describe('POST / users', () => {
       if (connection.isInitialized) {
          await connection.destroy()
       } else {
-         console.log('Connection was not initialized, skipping cleanup')
+         return error
       }
    })
 

@@ -46,7 +46,6 @@ import * as types from '../types'
 const envFile = `.env.${process.env.NODE_ENV || 'dev'}`
 const envPath = path.join(__dirname, `../../${envFile}`)
 
-console.log(`Loading environment from: ${envPath}`)
 dotenv.config({ path: envPath })
 
 // Helper to ensure clean string values
@@ -71,14 +70,3 @@ export const Config: types.config = {
 }
 
 // Validate configuration
-const validateConfig = () => {
-   console.log('Current configuration:', {
-      NODE_ENV: Config.NODE_ENV,
-      DB_HOST: Config.DB_HOST,
-      DB_PORT: Config.DB_PORT,
-      DB_USERNAME: Config.DB_USERNAME,
-      DB_NAME: Config.DB_NAME,
-   })
-}
-
-validateConfig()

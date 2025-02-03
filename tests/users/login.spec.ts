@@ -4,6 +4,7 @@ import { User } from '../../src/entity/User'
 import { ROLES } from '../../constants'
 import { LoginService } from '../utils/loginservice'
 import bcrypt from 'bcrypt'
+import { error } from 'console'
 
 describe('POST / auth/login', () => {
    let connection: DataSource
@@ -14,19 +15,15 @@ describe('POST / auth/login', () => {
 
    beforeEach(async () => {
       await connection.dropDatabase()
-      // console.log('Database dropped.')
 
       await connection.synchronize()
-      // console.log('Database synchronized.')
-
-      // console.log('Test user added.')
    })
 
    afterAll(async () => {
       if (connection && connection.isInitialized) {
          await connection.destroy()
       } else {
-         // console.log('Connection was not initialized, skipping cleanup')
+         return error
       }
    })
 

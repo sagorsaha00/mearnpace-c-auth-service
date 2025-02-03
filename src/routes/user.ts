@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { RequestHandler } from 'express'
 import authenticate from '../../middleware/authenticate'
 import { canAccess } from '../../middleware/canAccesse'
 import { ROLES } from '../../constants'
@@ -14,8 +14,11 @@ const user = AppDataSource.getRepository(User)
 const userService = new UserService(user)
 const userController = new UserController(userService, logger)
 
-router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
-   userController.create(req, res, next),
+router.post(
+   '/',
+   authenticate,
+   canAccess([ROLES.ADMIN]),
+   async (req, res, next) => await userController.create(req, res, next),
 )
 router.get('/', authenticate, canAccess([ROLES.ADMIN]), (req, res, next) =>
    userController.getAll(req, res, next),

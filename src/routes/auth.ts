@@ -1,4 +1,9 @@
-import express, { NextFunction, Request, Response } from 'express'
+import express, {
+   NextFunction,
+   Request,
+   RequestHandler,
+   Response,
+} from 'express'
 import { AuthControllers } from './../controllers/AuthControllers'
 import { UserService } from '../services/UserService'
 import { AppDataSource } from '../config/data-source'
@@ -32,31 +37,42 @@ router.post(
    '/register',
    registerValidator, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.register(req, res, next),
+      authControllers.register(req, res, next) as unknown as RequestHandler,
 )
 router.post(
    '/login',
    loginValidator, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.login(req, res, next),
+      authControllers.login(req, res, next) as unknown as RequestHandler,
 )
 router.get(
    '/self',
-   authenticate, // Fixed validation method from isEmpty to notEmpty
+   authenticate as RequestHandler, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response) =>
-      authControllers.self(req as AuthRequest, res),
+      authControllers.self(
+         req as AuthRequest,
+         res,
+      ) as unknown as RequestHandler,
 )
 router.post(
    '/refresh',
-   validateRefreshToken, // Fixed validation method from isEmpty to notEmpty
+   validateRefreshToken as RequestHandler, // Fixed validation method from isEmpty to notEmpty
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.refresh(req as AuthRequest, res, next),
+      authControllers.refresh(
+         req as AuthRequest,
+         res,
+         next,
+      ) as unknown as RequestHandler,
 )
 router.post(
    '/logout',
-   authenticate,
-   perseRefreshToken, // Fixed validation method from isEmpty to notEmpty,
+   authenticate as RequestHandler,
+   perseRefreshToken as RequestHandler, // Fixed validation method from isEmpty to notEmpty,
    (req: Request, res: Response, next: NextFunction) =>
-      authControllers.logout({ req: req as AuthRequest, res, next }),
+      authControllers.logout({
+         req: req as AuthRequest,
+         res,
+         next,
+      }) as unknown as RequestHandler,
 )
 export default router

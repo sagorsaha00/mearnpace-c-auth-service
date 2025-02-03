@@ -5,6 +5,7 @@ import app from '../../src/app'
 import { Tenants } from '../../src/entity/Tenant'
 import createJWKSMock from 'mock-jwks'
 import { ROLES } from '../../constants'
+import { error } from 'node:console'
 
 describe('POST /tanents', () => {
    let connection: DataSource
@@ -27,7 +28,7 @@ describe('POST /tanents', () => {
       if (connection && connection.isInitialized) {
          await connection.destroy()
       } else {
-         console.log('Connection was not initialized, skipping cleanup')
+         return error
       }
    })
 
