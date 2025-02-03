@@ -27,7 +27,7 @@ export default tseslint.config(
          '@typescript-eslint/no-floating-promises': 'off',
          '@typescript-eslint/parser': 'off',
          '@typescript-eslint/no-unsafe-call': 'off',
-          ' @typescript-eslint/no-misused-promises':'off'
+         ' @typescript-eslint/no-misused-promises': 'off',
       },
    },
 )
