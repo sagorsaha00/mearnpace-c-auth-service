@@ -22,7 +22,7 @@ describe('POST / auth/self', () => {
    })
    afterAll(async () => {
       jwks.stop()
-      if (connection.isInitialized) {
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
          console.log('Connection was not initialized, skipping cleanup')

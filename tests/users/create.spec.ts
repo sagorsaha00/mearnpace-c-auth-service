@@ -5,6 +5,7 @@ import app from '../../src/app'
 import request from 'supertest'
 import { AppDataSource } from '../../src/config/data-source'
 import { User } from '../../src/entity/User'
+import { error } from 'console'
 
 describe('POST / users', () => {
    let connection: DataSource
@@ -13,6 +14,8 @@ describe('POST / users', () => {
    beforeAll(async () => {
       jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
+
+      console.log('Connection object:', connection)
       const userRepository = connection.getRepository(User)
       await userRepository.save({
          id: 1,
@@ -26,6 +29,7 @@ describe('POST / users', () => {
    beforeEach(async () => {
       jwks.start()
       await connection.dropDatabase()
+
       await connection.synchronize()
    })
 
@@ -34,7 +38,8 @@ describe('POST / users', () => {
    })
 
    afterAll(async () => {
-      if (connection.isInitialized) {
+      console.log('connection', connection)
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
          console.log('Connection was not initialized, skipping cleanup')
