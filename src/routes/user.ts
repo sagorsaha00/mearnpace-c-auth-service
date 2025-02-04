@@ -1,4 +1,4 @@
-import express, { RequestHandler } from 'express'
+import express from 'express'
 import authenticate from '../../middleware/authenticate'
 import { canAccess } from '../../middleware/canAccesse'
 import { ROLES } from '../../constants'
@@ -8,6 +8,7 @@ import { AppDataSource } from '../config/data-source'
 import { User } from '../entity/User'
 import logger from '../config/logger'
 import { AuthNumber } from '../types'
+
 const router = express.Router()
 
 const user = AppDataSource.getRepository(User)
@@ -30,7 +31,9 @@ router.delete(
    '/:id',
    authenticate,
    canAccess([ROLES.ADMIN]),
-   (req, res, next) => userController.destroy(req, res, next),
+   (req, res, next) => {
+      return userController.destroy(req, res, next)
+   },
 )
 
 export default router

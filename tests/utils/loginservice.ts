@@ -17,7 +17,7 @@ export class LoginService {
          where: { email },
          select: ['id', 'email', 'password'],
       })
-      // console.log('user name ', user)
+
       if (!user) {
          const error = createHttpError(404, 'user and password are not match')
          next(error)

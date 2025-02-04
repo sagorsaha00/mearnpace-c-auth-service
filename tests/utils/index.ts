@@ -25,6 +25,6 @@ export const jtwt = (token: string | null): boolean => {
       })
       return true
    } catch (error) {
-      return false
+      return error
    }
 }
