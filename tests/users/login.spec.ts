@@ -15,7 +15,7 @@ describe('POST / auth/login', () => {
 
    beforeEach(async () => {
       await connection.dropDatabase()
-      console.log('connection name', connection)
+
       await connection.synchronize()
    })
 
