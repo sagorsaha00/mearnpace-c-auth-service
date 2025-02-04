@@ -14,6 +14,7 @@ describe('POST / users', () => {
    beforeAll(async () => {
       jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
+      console.log('Connection object:', connection)
       const userRepository = connection.getRepository(User)
       await userRepository.save({
          id: 1,
@@ -27,6 +28,7 @@ describe('POST / users', () => {
    beforeEach(async () => {
       jwks.start()
       await connection.dropDatabase()
+      console.log('connection name', connection)
       await connection.synchronize()
    })
 
@@ -35,10 +37,10 @@ describe('POST / users', () => {
    })
 
    afterAll(async () => {
-      if (connection.isInitialized) {
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
-         return error
+         console.log('Connection was not initialized, skipping cleanup')
       }
    })
 

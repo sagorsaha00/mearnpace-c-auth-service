@@ -15,15 +15,15 @@ describe('POST / auth/login', () => {
 
    beforeEach(async () => {
       await connection.dropDatabase()
-
+      console.log('connection name', connection)
       await connection.synchronize()
    })
 
    afterAll(async () => {
-      if (connection && connection.isInitialized) {
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
-         return error
+         console.log('Connection was not initialized, skipping cleanup')
       }
    })
 

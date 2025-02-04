@@ -1,13 +1,15 @@
 import bcrypt from 'bcrypt'
 
 import createHttpError from 'http-errors'
+import { Repository } from 'typeorm'
+import { User } from '../../src/entity/User'
 function next(error: createHttpError.HttpError<404>) {
    throw new Error('Function not implemented.')
 }
 export class LoginService {
-   private userRepository
+   private userRepository: Repository<User>
 
-   constructor(userRepository: unknown) {
+   constructor(userRepository: Repository<User>) {
       this.userRepository = userRepository
    }
 
