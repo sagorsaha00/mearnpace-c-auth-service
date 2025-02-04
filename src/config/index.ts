@@ -4,10 +4,9 @@ import { config } from '../types'
 
 // // Load environment variables first
 dotenv.config({
-   path: path.join(__dirname, `../../.env.${process.env.NODE_ENV || 'dev'}`),
+   path: path.join(__dirname, `../../.env.${process.env.NODE_ENV ?? 'dev'}`),
 })
-console.log('proces db host', process.env.DB_HOST)
-console.log('proces db host', process.env.DB_NAME)
+
 export const Config: config = {
    PORT: process.env.PORT ?? '5500',
    NODE_ENV: process.env.NODE_ENV ?? 'development',
