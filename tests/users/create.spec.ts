@@ -14,6 +14,7 @@ describe('POST / users', () => {
    beforeAll(async () => {
       jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
+
       console.log('Connection object:', connection)
       const userRepository = connection.getRepository(User)
       await userRepository.save({
@@ -37,6 +38,7 @@ describe('POST / users', () => {
    })
 
    afterAll(async () => {
+      console.log('connection', connection)
       if (connection?.isInitialized) {
          await connection.destroy()
       } else {

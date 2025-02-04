@@ -10,7 +10,6 @@ import { error } from 'node:console'
 describe('POST /tanents', () => {
    let connection: DataSource
    let jwks: ReturnType<typeof createJWKSMock>
-   let adminToken: string
 
    beforeAll(async () => {
       jwks = createJWKSMock('http://localhost:5500')
