@@ -29,7 +29,7 @@ describe('POST / users', () => {
    beforeEach(async () => {
       jwks.start()
       await connection.dropDatabase()
-      console.log('connection name', connection)
+
       await connection.synchronize()
    })
 
