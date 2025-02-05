@@ -15,7 +15,6 @@ describe('POST / users', () => {
       jwks = createJWKSMock('http://localhost:5500')
       connection = await AppDataSource.initialize()
 
-      console.log('Connection object:', connection)
       const userRepository = connection.getRepository(User)
       await userRepository.save({
          id: 1,
