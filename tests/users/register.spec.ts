@@ -21,7 +21,7 @@ describe('POST / auth/register', () => {
    })
 
    afterAll(async () => {
-      if (connection && connection.isInitialized) {
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
          console.log('Connection was not initialized, skipping cleanup')
@@ -233,6 +233,7 @@ describe('POST / auth/register', () => {
             .send(userdata)
 
          expect(response.statusCode).toBe(400)
+         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
          expect(response.body.errors).toEqual(
             expect.arrayContaining([
                expect.objectContaining({ msg: 'Firstname is required' }),

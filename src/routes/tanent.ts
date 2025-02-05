@@ -13,9 +13,6 @@ const tanentRepository = AppDataSource.getRepository(Tenants)
 const tanentService = new TanentService(tanentRepository)
 const tanentController = new TanentControllers(tanentService, logger)
 
-// router.post('/', authenticate, canAccess([ROLES.ADMIN]), (req, res) =>
-//    tanentController.create(req, res),
-// )
 router.post(
    '/',
    authenticate,
@@ -24,7 +21,5 @@ router.post(
       tanentController.create(req, res)
    },
 )
-// router.post('/',(req,res) => {
-//    res.json({})
-// })
+
 export default router

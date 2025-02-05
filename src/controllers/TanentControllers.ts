@@ -11,12 +11,8 @@ export class TanentControllers {
    async create(req: createTenantRepository, res: Response) {
       const { name, address } = req.body
 
-      try {
-         const tanent = await this.tanentservice.create({ name, address })
-         this.logger.info('tanent has been create', { id: tanent.id })
-         res.status(201).json({ id: tanent.id })
-      } catch (error) {
-         throw error
-      }
+      const tanent = await this.tanentservice.create({ name, address })
+      this.logger.info('tanent has been create', { id: tanent.id })
+      res.status(201).json({ id: tanent.id })
    }
 }

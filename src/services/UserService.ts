@@ -23,17 +23,13 @@ export class UserService {
       const saltOrRound = 10
       const HasPassword = await bcript.hash(password, saltOrRound)
 
-      try {
-         return await this.userRepository.save({
-            firstname,
-            lastname,
-            email,
-            password: HasPassword,
-            role,
-         })
-      } catch (error) {
-         throw error
-      }
+      return await this.userRepository.save({
+         firstname,
+         lastname,
+         email,
+         password: HasPassword,
+         role,
+      })
    }
 
    async findByemailwithpassword(email: string) {
