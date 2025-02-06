@@ -13,6 +13,9 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
+          - name: Clear Jest cache
+            run: jest --clearCache
+ 
          - name: Checkout repository
            uses: actions/checkout@v3
 
