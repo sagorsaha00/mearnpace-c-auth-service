@@ -1,9 +1,10 @@
 import { Logger } from 'winston'
 import { ROLES } from '../../constants'
-import { createUserRepository } from '../types'
+import { createUserRepository, userQuryParams } from '../types'
 import { UserService } from './../services/UserService'
 import { Request, Response, NextFunction } from 'express'
 import createHttpError from 'http-errors'
+import { matchedData } from 'express-validator'
 
 export class UserController {
    constructor(
@@ -13,14 +14,15 @@ export class UserController {
 
    async create(req: createUserRepository, res: Response, next: NextFunction) {
       try {
-         const { firstname, lastname, email, password } = req.body
+         const { firstname, lastname, email, password, role,   } = req.body
 
          const user = await this.userService.create({
             firstname,
             lastname,
             email,
             password,
-            role: ROLES.MANAGER,
+            role: role,
+           
          })
 
          res.status(201).json({ id: user.id })
@@ -29,11 +31,18 @@ export class UserController {
       }
    }
    async getAll(req: Request, res: Response, next: NextFunction) {
+      const validataquery = matchedData(req, { onlyValidData: true })
+     
       try {
-         const users = await this.userService.getAll()
+         const [users,count] = await this.userService.getAll(validataquery as  userQuryParams)
 
          this.logger.info('All users have been fetched')
-         res.json(users)
+         res.json({
+            currentPage:validataquery.currentPage,
+            perPage:validataquery.perPage,
+            total:count,
+            data:users
+         })
       } catch (err) {
          next(err)
       }

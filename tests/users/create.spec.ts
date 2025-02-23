@@ -37,7 +37,7 @@ describe('POST / users', () => {
    })
 
    afterAll(async () => {
-      console.log('connection', connection)
+      // console.log('connection', connection)
       if (connection?.isInitialized) {
          await connection.destroy()
       } else {

@@ -2,11 +2,19 @@ import 'reflect-metadata'
 import express, { NextFunction, Request, Response, Express } from 'express'
 import cookieParser from 'cookie-parser'
 import { HttpError } from 'http-errors'
+import cors from 'cors'
 import authRouter from './routes/auth'
 import logger from './config/logger'
 import tanentRouter from './routes/tanent'
 import userRouter from './routes/user'
 const app = express()
+app.use(
+   cors({
+    
+      origin: ["http://localhost:5173"],
+      credentials: true,
+   }),
+)
 app.use(express.json())
 app.use(express.static('public'))
 app.use(cookieParser())

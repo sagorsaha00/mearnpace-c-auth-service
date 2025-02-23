@@ -86,6 +86,7 @@ describe('POST / auth/register', () => {
             lastname: 'saha',
             email: 'sahasagor650@gmail.com',
             password: 'secret',
+            role:'admin'
          }
          //act
          await request(app).post('/auth/register').send(userdata)
@@ -246,7 +247,7 @@ describe('POST / auth/register', () => {
          const userdata = {
             firstname: 'Sagor',
             lastname: 'saha',
-            email: 'sahasagor659@gmail.com', // Valid email
+            email: 'sahasagor620@gmail.com', // Valid email
             password: 'secret',
          }
 
@@ -267,7 +268,7 @@ describe('POST / auth/register', () => {
 
          // Assert: User's email matches the input
          const user = users[0]
-         expect(user.email).toBe('sahasagor659@gmail.com')
+         expect(user.email).toBe('sahasagor620@gmail.com')
       })
    })
 })

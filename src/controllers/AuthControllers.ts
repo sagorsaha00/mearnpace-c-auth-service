@@ -26,12 +26,13 @@ export class AuthControllers {
          return res.status(400).json({ errors: result.array() })
       }
 
-      const { firstname, lastname, email, password } = request.body
+      const { firstname, lastname, email, password,role, } = request.body
       this.logger.info('user has been registerd', {
          firstname,
          lastname,
          email,
          password: '#****',
+         role
       })
 
       //user create
@@ -41,7 +42,8 @@ export class AuthControllers {
             lastname,
             email,
             password,
-            role: ROLES.CUSTOMER,
+            role,
+          
          })
          this.logger.info('user has been registerd', { id: user.id })
 

@@ -1,6 +1,6 @@
-import bcript from 'bcrypt'
-import { userdata } from './../types/index'
-import { Repository } from 'typeorm'
+import * as bcrypt from 'bcrypt' // Make sure this import exists
+import { userdata, userQuryParams } from './../types/index'
+import { Brackets, Repository } from 'typeorm'
 import { User } from '../entity/User'
 
 import createHttpError from 'http-errors'
@@ -9,27 +9,34 @@ export class UserService {
    // userRepository: any
    constructor(private userRepository: Repository<User>) {}
 
-   async create({ firstname, lastname, email, password, role }: userdata) {
-      //already email exists
-      const user = await this.userRepository.findOne({
-         where: { email: email },
+   async create(userData: userdata) {
+      const { firstname, lastname, email, password, role } = userData
+
+      // Check if email already exists
+      const existingUser = await this.userRepository.findOne({
+         where: { email },
       })
-      if (user) {
-         const err = createHttpError(400, 'email already use another user')
-         throw err
+      if (existingUser) {
+         throw createHttpError(400, 'Email is already in use by another user')
       }
 
-      //hash password create
-      const saltOrRound = 10
-      const HasPassword = await bcript.hash(password, saltOrRound)
+      if (!password) {
+         throw createHttpError(400, 'password is required')
+      }
+      // Hash the password
+      const saltRounds = 10
+      const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-      return await this.userRepository.save({
+      // Create and save the new user
+      const newUser = this.userRepository.create({
          firstname,
          lastname,
          email,
-         password: HasPassword,
+         password: hashedPassword,
          role,
       })
+
+      return await this.userRepository.save(newUser)
    }
 
    async findByemailwithpassword(email: string) {
@@ -41,11 +48,40 @@ export class UserService {
    async findById(id: number) {
       return await this.userRepository.findOne({
          where: { id },
+         relations: {
+            tanent: true,
+         },
       })
    }
 
-   async getAll() {
-      return await this.userRepository.find()
+   async getAll(validataquery: userQuryParams) {
+      const quryBuilder = this.userRepository.createQueryBuilder('user')
+
+      if (validataquery.q) {
+         const searchItem = `%${validataquery.q}%`
+         quryBuilder.where(
+            new Brackets((qb) => {
+               qb.where(
+                  "CONCAT(user.firstname, ' ', user.lastname) ILike :q ",
+                  { q: searchItem },
+               ).orWhere('user.email ILike :q', { q: searchItem })
+            }),
+         )
+      }
+      if (validataquery.role) {
+         quryBuilder.andWhere('user.role = :role', {
+            role: validataquery.role,
+         })
+      }
+
+      const result = await quryBuilder
+         .leftJoinAndSelect('user.tanent', 'tanent')
+         .skip((validataquery.currentPage - 1) * validataquery.perPage)
+         .take(validataquery.perPage)
+         .orderBy('user.id', 'DESC')
+         .getManyAndCount()
+
+      return result
    }
    async getOne(id: number): Promise<User | null> {
       return await this.userRepository.findOne({ where: { id } })
