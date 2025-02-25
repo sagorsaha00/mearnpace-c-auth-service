@@ -1,11 +1,17 @@
 import * as bcrypt from 'bcrypt' // Make sure this import exists
-import { userdata, userQuryParams } from './../types/index'
+import { userdata, userdataupdate, userQuryParams } from './../types/index'
 import { Brackets, Repository } from 'typeorm'
 import { User } from '../entity/User'
 
 import createHttpError from 'http-errors'
 
 export class UserService {
+   getById(numericUserId: number) {
+      throw new Error('Method not implemented.')
+   }
+   getByEmail(email: string) {
+      throw new Error('Method not implemented.')
+   }
    // userRepository: any
    constructor(private userRepository: Repository<User>) {}
 
@@ -89,4 +95,37 @@ export class UserService {
    async deleteById(userId: number) {
       return await this.userRepository.delete(userId)
    }
+   async update(userId: number, userData: userdataupdate) {
+      try {
+         if (!userId || isNaN(userId)) {
+            throw new Error("Invalid userId provided");
+         }
+   
+         const userExists = await this.userRepository.findOne({ where: { id: userId } });
+         if (!userExists) {
+            throw new Error(`User with ID ${userId} not found`);
+         }
+   
+         const existingUser = await this.userRepository.findOne({ where: { email: userData.email } });
+   
+         if (existingUser && existingUser.id !== userId) {
+            throw new Error("Email already in use by another user");
+         }
+   
+         await this.userRepository.update(userId, {
+            firstname: userData.firstname,
+            lastname: userData.lastname,
+            email: userData.email,
+            role: userData.role,
+         });
+   
+         return { message: "User updated successfully" };
+      } catch (error) {
+         console.error("Error updating user:", error);
+         throw new Error('error message');
+      }
+   }
+   
+   
+   
 }

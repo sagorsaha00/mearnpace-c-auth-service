@@ -41,6 +41,14 @@ router.delete(
    (req, res, next) => {
       return userController.destroy(req, res, next)
    },
+   router.patch(
+      '/:id',
+      authenticate,
+      canAccess([ROLES.ADMIN]),
+      (req, res, next) => {
+         return userController.update(req, res, next)
+      },
+   )
 )
 
 export default router

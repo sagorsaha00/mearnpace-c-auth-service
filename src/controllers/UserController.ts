@@ -14,7 +14,7 @@ export class UserController {
 
    async create(req: createUserRepository, res: Response, next: NextFunction) {
       try {
-         const { firstname, lastname, email, password, role,   } = req.body
+         const { firstname, lastname, email, password, role } = req.body
 
          const user = await this.userService.create({
             firstname,
@@ -22,7 +22,6 @@ export class UserController {
             email,
             password,
             role: role,
-           
          })
 
          res.status(201).json({ id: user.id })
@@ -32,16 +31,18 @@ export class UserController {
    }
    async getAll(req: Request, res: Response, next: NextFunction) {
       const validataquery = matchedData(req, { onlyValidData: true })
-     
+
       try {
-         const [users,count] = await this.userService.getAll(validataquery as  userQuryParams)
+         const [users, count] = await this.userService.getAll(
+            validataquery as userQuryParams,
+         )
 
          this.logger.info('All users have been fetched')
          res.json({
-            currentPage:validataquery.currentPage,
-            perPage:validataquery.perPage,
-            total:count,
-            data:users
+            currentPage: validataquery.currentPage,
+            perPage: validataquery.perPage,
+            total: count,
+            data: users,
          })
       } catch (err) {
          next(err)
@@ -85,6 +86,31 @@ export class UserController {
          res.json({ id: Number(userId) })
       } catch (err) {
          next(err)
+      }
+   }
+   async update(req: Request, res: Response, next: NextFunction) {
+      try {
+         const { firstname, lastname, email, role } = req.body;
+         const userId = req.params.id;
+   
+         // Validate userId
+         if (!userId || isNaN(Number(userId))) {
+            return next(createHttpError(400, "Invalid User ID"));
+         }
+   
+         const numericUserId = Number(userId);
+   
+      
+   
+       
+         
+         // Update user
+         await this.userService.update(numericUserId, { firstname, lastname, email, role });
+   
+         // Return success response
+         return res.status(200).json({ message: "User updated successfully", id: numericUserId });
+      } catch (error) {
+         next(error);
       }
    }
 }
