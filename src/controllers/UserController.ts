@@ -90,7 +90,7 @@ export class UserController {
    }
    async update(req: Request, res: Response, next: NextFunction) {
       try {
-         const { firstname, lastname, email, role } = req.body;
+         const { firstname, lastname, email, role,tanentId } = req.body;
          const userId = req.params.id;
    
          // Validate userId
@@ -105,7 +105,7 @@ export class UserController {
        
          
          // Update user
-         await this.userService.update(numericUserId, { firstname, lastname, email, role });
+         await this.userService.update(numericUserId, { firstname, lastname, email, role,tanentId });
    
          // Return success response
          return res.status(200).json({ message: "User updated successfully", id: numericUserId });

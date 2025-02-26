@@ -7,13 +7,15 @@ export interface userdata {
    email: string
    password: string
    role: string
+ 
 }
 export interface userdataupdate {
-   
+
    firstname: string
    lastname: string
    email: string
    role: string
+   tanentId:string
 }
 export interface RegisterUserRepository extends Request {
    body: userdata

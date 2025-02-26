@@ -23,16 +23,17 @@ export class AuthControllers {
       //check valdator
       const result = validationResult(request)
       if (!result.isEmpty()) {
-         return res.status(400).json({ errors: result.array() })
+         next(createHttpError(400, result.array()))
+         return
       }
 
-      const { firstname, lastname, email, password,role, } = request.body
+      const { firstname, lastname, email, password, role } = request.body
       this.logger.info('user has been registerd', {
          firstname,
          lastname,
          email,
          password: '#****',
-         role
+         role,
       })
 
       //user create
@@ -43,7 +44,6 @@ export class AuthControllers {
             email,
             password,
             role,
-          
          })
          this.logger.info('user has been registerd', { id: user.id })
 

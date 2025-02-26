@@ -16,7 +16,7 @@ export class UserService {
    constructor(private userRepository: Repository<User>) {}
 
    async create(userData: userdata) {
-      const { firstname, lastname, email, password, role } = userData
+      const { firstname, lastname, email, password, role,  } = userData
 
       // Check if email already exists
       const existingUser = await this.userRepository.findOne({
@@ -40,6 +40,7 @@ export class UserService {
          email,
          password: hashedPassword,
          role,
+         
       })
 
       return await this.userRepository.save(newUser)
@@ -117,6 +118,7 @@ export class UserService {
             lastname: userData.lastname,
             email: userData.email,
             role: userData.role,
+            tanent:{ id: Number(userData.tanentId) }
          });
    
          return { message: "User updated successfully" };
