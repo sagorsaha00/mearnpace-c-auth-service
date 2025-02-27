@@ -9,6 +9,17 @@ export interface userdata {
    role: string
  
 }
+export interface RequestBody {
+
+   role: string;
+    
+ }
+ 
+ export interface CustomRequest extends Request {
+   body: userdataupdate;
+ }
+ 
+
 export interface userdataupdate {
 
    firstname: string

@@ -10,6 +10,7 @@ import logger from '../config/logger'
 import { AuthNumber } from '../types'
 import { listuserValidator } from '../validator/list-user-validator'
 import { Request } from 'express-jwt'
+import { updatelistuservalidator } from '../validator/update-list-user-validator'
 
 const router = express.Router()
 
@@ -45,10 +46,11 @@ router.delete(
       '/:id',
       authenticate,
       canAccess([ROLES.ADMIN]),
-      (req, res, next) => {
+      updatelistuservalidator,
+      (req: Request, res: Response, next: NextFunction) => {
          return userController.update(req, res, next)
       },
-   )
+   ),
 )
 
 export default router

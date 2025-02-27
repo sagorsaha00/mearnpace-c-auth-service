@@ -90,27 +90,31 @@ export class UserController {
    }
    async update(req: Request, res: Response, next: NextFunction) {
       try {
-         const { firstname, lastname, email, role,tanentId } = req.body;
-         const userId = req.params.id;
-   
+         const { firstname, lastname, email, role, tanentId } = req.body
+         const userId = req.params.id
+
          // Validate userId
          if (!userId || isNaN(Number(userId))) {
-            return next(createHttpError(400, "Invalid User ID"));
+            return next(createHttpError(400, 'Invalid User ID'))
          }
-   
-         const numericUserId = Number(userId);
-   
-      
-   
-       
-         
+
+         const numericUserId = Number(userId)
+
          // Update user
-         await this.userService.update(numericUserId, { firstname, lastname, email, role,tanentId });
-   
+         await this.userService.update(numericUserId, {
+            firstname,
+            lastname,
+            email,
+            role,
+            tanentId,
+         })
+
          // Return success response
-         return res.status(200).json({ message: "User updated successfully", id: numericUserId });
+         return res
+            .status(200)
+            .json({ message: 'User updated successfully', id: numericUserId })
       } catch (error) {
-         next(error);
+         next(error)
       }
    }
 }

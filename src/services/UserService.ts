@@ -16,7 +16,7 @@ export class UserService {
    constructor(private userRepository: Repository<User>) {}
 
    async create(userData: userdata) {
-      const { firstname, lastname, email, password, role,  } = userData
+      const { firstname, lastname, email, password, role } = userData
 
       // Check if email already exists
       const existingUser = await this.userRepository.findOne({
@@ -40,7 +40,6 @@ export class UserService {
          email,
          password: hashedPassword,
          role,
-         
       })
 
       return await this.userRepository.save(newUser)
@@ -99,35 +98,38 @@ export class UserService {
    async update(userId: number, userData: userdataupdate) {
       try {
          if (!userId || isNaN(userId)) {
-            throw new Error("Invalid userId provided");
+            throw new Error('Invalid userId provided')
          }
-   
-         const userExists = await this.userRepository.findOne({ where: { id: userId } });
+
+         const userExists = await this.userRepository.findOne({
+            where: { id: userId },
+         })
          if (!userExists) {
-            throw new Error(`User with ID ${userId} not found`);
+            throw new Error(`User with ID ${userId} not found`)
          }
-   
-         const existingUser = await this.userRepository.findOne({ where: { email: userData.email } });
-   
+
+         const existingUser = await this.userRepository.findOne({
+            where: { email: userData.email },
+         })
+
          if (existingUser && existingUser.id !== userId) {
-            throw new Error("Email already in use by another user");
+            throw new Error('Email already in use by another user')
          }
-   
+
          await this.userRepository.update(userId, {
             firstname: userData.firstname,
             lastname: userData.lastname,
             email: userData.email,
             role: userData.role,
-            tanent:{ id: Number(userData.tanentId) }
-         });
-   
-         return { message: "User updated successfully" };
+            tanent: userData.role === "Admin" ? null : (userData.tanentId ? { id: Number(userData.tanentId) } : null),
+        });
+        
+          console.log(userData.role === "Admin" ? null : (userData.tanentId ? { id: Number(userData.tanentId) } : null));
+
+         return { message: 'User updated successfully' }
       } catch (error) {
-         console.error("Error updating user:", error);
-         throw new Error('error message');
+         console.error('Error updating user:', error)
+         throw new Error('error message')
       }
    }
-   
-   
-   
 }

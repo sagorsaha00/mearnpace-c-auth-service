@@ -8,12 +8,11 @@ import logger from './config/logger'
 import tanentRouter from './routes/tanent'
 import userRouter from './routes/user'
 import { globalErrorHandler } from '../middleware/globalerrorHandler'
- 
+
 const app = express()
 app.use(
    cors({
-    
-      origin: ["http://localhost:5173"],
+      origin: ['http://localhost:5173'],
       credentials: true,
    }),
 )
