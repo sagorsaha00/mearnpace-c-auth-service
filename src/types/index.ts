@@ -7,26 +7,22 @@ export interface userdata {
    email: string
    password: string
    role: string
- 
+   tanentId:string
 }
 export interface RequestBody {
+   role: string
+}
 
-   role: string;
-    
- }
- 
- export interface CustomRequest extends Request {
-   body: userdataupdate;
- }
- 
+export interface CustomRequest extends Request {
+   body: userdataupdate
+}
 
 export interface userdataupdate {
-
    firstname: string
    lastname: string
    email: string
    role: string
-   tanentId:string
+   tanentId: string
 }
 export interface RegisterUserRepository extends Request {
    body: userdata
@@ -45,6 +41,7 @@ export interface AuthNumber extends Request {
 }
 export interface AuthRequest extends Request {
    auth: {
+      tenant: any
       sub: string
       role: string
       id: string

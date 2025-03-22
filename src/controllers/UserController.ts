@@ -14,7 +14,7 @@ export class UserController {
 
    async create(req: createUserRepository, res: Response, next: NextFunction) {
       try {
-         const { firstname, lastname, email, password, role } = req.body
+         const { firstname, lastname, email, password, role,tanentId } = req.body
 
          const user = await this.userService.create({
             firstname,
@@ -22,6 +22,7 @@ export class UserController {
             email,
             password,
             role: role,
+            tanentId
          })
 
          res.status(201).json({ id: user.id })

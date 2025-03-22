@@ -49,6 +49,9 @@ export class UserService {
       return await this.userRepository.findOne({
          where: { email: email },
          select: ['id', 'email', 'firstname', 'lastname', 'password', 'role'],
+         relations: {
+            tanent: true,
+         },
       })
    }
    async findById(id: number) {
@@ -121,10 +124,13 @@ export class UserService {
             lastname: userData.lastname,
             email: userData.email,
             role: userData.role,
-            tanent: userData.role === "Admin" ? null : (userData.tanentId ? { id: Number(userData.tanentId) } : null),
-        });
-        
-          console.log(userData.role === "Admin" ? null : (userData.tanentId ? { id: Number(userData.tanentId) } : null));
+            tanent:
+               userData.role === 'Admin'
+                  ? null
+                  : userData.tanentId
+                  ? { id: Number(userData.tanentId) }
+                  : null,
+         })
 
          return { message: 'User updated successfully' }
       } catch (error) {

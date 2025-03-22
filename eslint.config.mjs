@@ -29,6 +29,7 @@ export default tseslint.config(
          '@typescript-eslint/parser': 'off',
          '@typescript-eslint/no-unsafe-call': 'off',
          '@typescript-eslint/no-misused-promises': 'off',
+         "@typescript-eslint/no-explicit-any":"off"
       },
    },
 )
