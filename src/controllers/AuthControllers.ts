@@ -23,15 +23,18 @@ export class AuthControllers {
       //check valdator
       const result = validationResult(request)
       if (!result.isEmpty()) {
-         return res.status(400).json({ errors: result.array() })
+         next(createHttpError(400, result.array()))
+         return
       }
 
-      const { firstname, lastname, email, password } = request.body
+      const { firstname, lastname, email, password, role, tanentId } = request.body
       this.logger.info('user has been registerd', {
          firstname,
          lastname,
          email,
          password: '#****',
+         role,
+         tanentId
       })
 
       //user create
@@ -41,7 +44,8 @@ export class AuthControllers {
             lastname,
             email,
             password,
-            role: ROLES.CUSTOMER,
+            role,
+            tanentId
          })
          this.logger.info('user has been registerd', { id: user.id })
 
@@ -121,6 +125,7 @@ export class AuthControllers {
          const payload: JwtPayload = {
             sub: String(user.id), // The 'sub' claim (typically the user ID)
             role: user.role, // Your custom claim (role)
+            tenant:user.tanent ? String(user.tanent.id) : ""  //tenantId
          }
 
          //genarate accesstoken
@@ -166,6 +171,7 @@ export class AuthControllers {
          const payload: JwtPayload = {
             sub: String(req.auth.sub), // The 'sub' claim (typically the user ID)
             role: req.auth.role, // Your custom claim (role)
+            tenant:req.auth.tenant
          }
 
          //genarate accesstoken

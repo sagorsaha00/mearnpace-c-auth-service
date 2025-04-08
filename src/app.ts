@@ -2,11 +2,20 @@ import 'reflect-metadata'
 import express, { NextFunction, Request, Response, Express } from 'express'
 import cookieParser from 'cookie-parser'
 import { HttpError } from 'http-errors'
+import cors from 'cors'
 import authRouter from './routes/auth'
 import logger from './config/logger'
 import tanentRouter from './routes/tanent'
 import userRouter from './routes/user'
+import { globalErrorHandler } from '../middleware/globalerrorHandler'
+
 const app = express()
+app.use(
+   cors({
+      origin: ['http://localhost:5173'],
+      credentials: true,
+   }),
+)
 app.use(express.json())
 app.use(express.static('public'))
 app.use(cookieParser())
@@ -19,19 +28,6 @@ app.use('/users', userRouter)
 
 //global error-handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-   logger.error(err.message)
-   const statuscode = err.statusCode || err.status || 500
-
-   res.status(statuscode).json({
-      errors: [
-         {
-            type: err.name,
-            message: err.message,
-            path: '',
-         },
-      ],
-   })
-})
+app.use(globalErrorHandler)
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 export default app as Express

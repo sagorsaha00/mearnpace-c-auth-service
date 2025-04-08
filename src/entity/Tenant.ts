@@ -21,5 +21,5 @@ export class Tenants {
    updatedAt: number
 
    @CreateDateColumn()
-   CreatedAt: number
+   CreatedAt: number 
 }

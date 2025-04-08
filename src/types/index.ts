@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import { Brackets } from 'typeorm'
 
 export interface userdata {
    firstname: string
@@ -6,6 +7,22 @@ export interface userdata {
    email: string
    password: string
    role: string
+   tanentId:string
+}
+export interface RequestBody {
+   role: string
+}
+
+export interface CustomRequest extends Request {
+   body: userdataupdate
+}
+
+export interface userdataupdate {
+   firstname: string
+   lastname: string
+   email: string
+   role: string
+   tanentId: string
 }
 export interface RegisterUserRepository extends Request {
    body: userdata
@@ -24,6 +41,7 @@ export interface AuthNumber extends Request {
 }
 export interface AuthRequest extends Request {
    auth: {
+      tenant: any
       sub: string
       role: string
       id: string
@@ -54,11 +72,17 @@ export interface createTenantRepository extends Request {
 export interface createUserRepository extends Request {
    body: userdata
 }
-// interface getUserdata extends Request {
-//    params: {
-//       id?: string
-//       firstname?: string
-//       lastname?: string
-//       email?: string
-//    }
-// }
+
+export interface userQuryParams {
+   currentPage: number
+   perPage: number
+   q: string
+   role: string
+}
+
+export interface resutantParams {
+   where(arg0: Brackets): unknown
+   currentPage: number
+   perPage: number
+   r: string
+}

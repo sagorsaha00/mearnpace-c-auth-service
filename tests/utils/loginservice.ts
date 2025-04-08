@@ -1,27 +1,25 @@
 import bcrypt from 'bcrypt'
 
 import createHttpError from 'http-errors'
+import { Repository } from 'typeorm'
+import { User } from '../../src/entity/User'
 function next(error: createHttpError.HttpError<404>) {
    throw new Error('Function not implemented.')
 }
 export class LoginService {
-   private userRepository
+   private userRepository: Repository<User>
 
-   constructor(userRepository: any) {
+   constructor(userRepository: Repository<User>) {
       this.userRepository = userRepository
    }
 
    async login(email: string, password: string): Promise<number> {
-      // const user = await this.userRepository.findOne({ where: { email }  })
-      // const user = await this.userRepository.find({
-      //    where: { email },
-      //    select: ['password'], // Explicitly select the password field
-      // });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       const user = await this.userRepository.findOne({
          where: { email },
          select: ['id', 'email', 'password'],
       })
-      // console.log('user name ', user)
+
       if (!user) {
          const error = createHttpError(404, 'user and password are not match')
          next(error)

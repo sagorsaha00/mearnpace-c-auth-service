@@ -21,7 +21,7 @@ describe('POST / auth/register', () => {
    })
 
    afterAll(async () => {
-      if (connection && connection.isInitialized) {
+      if (connection?.isInitialized) {
          await connection.destroy()
       } else {
          console.log('Connection was not initialized, skipping cleanup')
@@ -86,6 +86,7 @@ describe('POST / auth/register', () => {
             lastname: 'saha',
             email: 'sahasagor650@gmail.com',
             password: 'secret',
+            role:'admin'
          }
          //act
          await request(app).post('/auth/register').send(userdata)
@@ -233,6 +234,7 @@ describe('POST / auth/register', () => {
             .send(userdata)
 
          expect(response.statusCode).toBe(400)
+         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
          expect(response.body.errors).toEqual(
             expect.arrayContaining([
                expect.objectContaining({ msg: 'Firstname is required' }),
@@ -245,7 +247,7 @@ describe('POST / auth/register', () => {
          const userdata = {
             firstname: 'Sagor',
             lastname: 'saha',
-            email: 'sahasagor659@gmail.com', // Valid email
+            email: 'sahasagor620@gmail.com', // Valid email
             password: 'secret',
          }
 
@@ -266,7 +268,7 @@ describe('POST / auth/register', () => {
 
          // Assert: User's email matches the input
          const user = users[0]
-         expect(user.email).toBe('sahasagor659@gmail.com')
+         expect(user.email).toBe('sahasagor620@gmail.com')
       })
    })
 })
