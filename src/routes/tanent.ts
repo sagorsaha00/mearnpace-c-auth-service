@@ -24,8 +24,8 @@ router.post(
 )
 router.get(
    "/alltanents",
-   authenticate,  // Middleware for authentication
-   canAccess([ROLES.ADMIN, ROLES.MANAGER]), 
+   // authenticate,  // Middleware for authentication
+   // canAccess([ROLES.ADMIN, ROLES.MANAGER]), 
    listResturantValidator,
    // Role-based access
    (req: Request, res: Response, next: NextFunction) => tanentController.getAll(req, res, next) // FIX: Call getAll()

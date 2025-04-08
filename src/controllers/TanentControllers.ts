@@ -22,7 +22,7 @@ export class TanentControllers {
       
       try {
          // Fetch all tenants from the database
-         const [tenants ,count] = await this.tanentservice.getAll(resturantQury as resutantParams);
+         const [tenants,count] = await this.tanentservice.getAll(resturantQury as resutantParams);
 
          // Log the action
          this.logger.info("Fetched all tenant data successfully.");
